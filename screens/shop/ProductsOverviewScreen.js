@@ -15,7 +15,15 @@ const ProductsOverviewScreen = props => {
   const products = useSelector(state => state.products.availableProducts);
 
   const renderProductItem = itemData => {
-    return <ProductItem image={itemData.item.imageUrl} />;
+    return (
+      <ProductItem
+        image={itemData.item.imageUrl}
+        title={itemData.item.title}
+        price={itemData.item.price}
+        onViewDetail={() => {}}
+        onAddToCart={() => {}}
+      />
+    );
   };
 
   return (
