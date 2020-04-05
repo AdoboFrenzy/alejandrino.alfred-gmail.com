@@ -4,17 +4,19 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import { useSelector } from "react-redux";
 
 import ProductItem from "../../components/shop/ProductItem";
-7;
 
-const ProductsOverviewScreen = props => {
-  const products = useSelector(state => state.products.availableProducts);
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton from "../../components/shop/HeaderButton";
 
-  const renderProductItem = itemData => {
+const ProductsOverviewScreen = (props) => {
+  const products = useSelector((state) => state.products.availableProducts);
+
+  const renderProductItem = (itemData) => {
     return (
       <ProductItem
         image={itemData.item.imageUrl}
@@ -25,8 +27,8 @@ const ProductsOverviewScreen = props => {
             routeName: "ProductsDetail",
             params: {
               productId: itemData.item.id,
-              product: itemData.item
-            }
+              product: itemData.item,
+            },
           });
         }}
         onAddToCart={() => {}}
@@ -37,14 +39,25 @@ const ProductsOverviewScreen = props => {
   return (
     <FlatList
       data={products}
-      keyExtractor={item => item.id}
+      keyExtractor={(item) => item.id}
       renderItem={renderProductItem}
     />
   );
 };
 
 ProductsOverviewScreen.navigationOptions = {
-  headerTitle: "All Products"
+  headerTitle: "All Products",
+  headerRight: () => (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        title="To Cart"
+        iconName="shopping-cart"
+        onPress={() => {
+          console.log("cart button pressed");
+        }}
+      />
+    </HeaderButtons>
+  ),
 };
 
 const styles = StyleSheet.create({});
