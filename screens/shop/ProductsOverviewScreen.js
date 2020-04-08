@@ -6,13 +6,17 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { addToCart } from "../../store/actions/cart";
 
 import ProductItem from "../../components/shop/ProductItem";
 7;
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
+
+  const dispatch = useDispatch();
 
   const renderProductItem = (itemData) => {
     return (
@@ -31,6 +35,7 @@ const ProductsOverviewScreen = (props) => {
         }}
         onAddToCart={() => {
           console.log("add to cart pressed");
+          dispatch(addToCart(itemData.item));
         }}
       />
     );
