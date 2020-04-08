@@ -12,8 +12,6 @@ import {
 
 import Colors from "../../constants/Colors";
 
-import HeaderButton from "./HeaderButton";
-
 const ProductItem = (props) => {
   let TouchableComponent =
     Platform.OS === "android" && Platform.Version >= 21
@@ -75,12 +73,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     marginVertical: 4,
-    fontFamily: "open-sans-bold",
+    // fontFamily: "open-sans",
   },
   price: {
     fontSize: 14,
     color: "#888",
-    fontFamily: "open-sans",
   },
   details: {
     alignItems: "center",

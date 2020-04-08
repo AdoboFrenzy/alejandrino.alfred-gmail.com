@@ -10,23 +10,17 @@ import ProductsDetailScreen from "../screens/shop/ProductDetailScreen";
 const ProductsNavigator = createStackNavigator(
   {
     ProductsOverview: {
-      screen: ProductsOverviewScreen,
+      screen: ProductsOverviewScreen
     },
-    ProductsDetail: ProductsDetailScreen,
+    ProductsDetail: ProductsDetailScreen
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primary : "",
+        backgroundColor: Platform.OS === "android" ? Colors.primary : ""
       },
-      headerTitleStyle: {
-        fontFamily: "open-sans-bold",
-      },
-      headerBackTitleStyle: {
-        fontFamily: "open-sans",
-      },
-      headerTintColor: Platform.OS === "android" ? "white" : Colors.primary,
-    },
+      headerTintColor: Platform.OS === "android" ? "white" : Colors.primary
+    }
   }
 );
 
