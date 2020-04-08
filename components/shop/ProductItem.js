@@ -12,6 +12,8 @@ import {
 
 import Colors from "../../constants/Colors";
 
+import HeaderButton from "./HeaderButton";
+
 const ProductItem = (props) => {
   let TouchableComponent =
     Platform.OS === "android" && Platform.Version >= 21

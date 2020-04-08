@@ -21,8 +21,8 @@ const store = createStore(rootReducer);
 
 const fetchFonts = () => {
   return Font.loadAsync({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
     "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
   });
 };
 
@@ -33,7 +33,9 @@ export default function App() {
     return (
       <AppLoading
         startAsync={fetchFonts}
-        onFinish={() => setFontLoaded(true)}
+        onFinish={() => {
+          setFontLoaded(true);
+        }}
       />
     );
   }
