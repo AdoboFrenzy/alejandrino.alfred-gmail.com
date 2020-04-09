@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../constants/Colors";
 
+import { addToCart } from "../../store/actions/cart";
+
 import CartItem from "../../components/shop/CartItem";
 
 const CartScreen = (props) => {
@@ -22,9 +24,19 @@ const CartScreen = (props) => {
     }
 
     return transformedCartItems;
-  });
+  }).sort((item1, item2) => item1.productTitle > item2.productTitle);
+
+  const availableProducts = useSelector(
+    (state) => state.products.availableProducts
+  );
+
+  const dispatch = useDispatch();
 
   const renderCartItem = (itemData) => {
+    const selectedProduct = availableProducts.find(
+      (product) => product.id === itemData.item.productId
+    );
+
     return (
       <CartItem
         id={itemData.item.productId}
@@ -32,6 +44,9 @@ const CartScreen = (props) => {
         price={itemData.item.productCost}
         quantity={itemData.item.quantity}
         totalCost={itemData.item.totalCost}
+        onAddToCart={() => {
+          dispatch(addToCart(selectedProduct));
+        }}
       />
     );
   };
@@ -40,10 +55,21 @@ const CartScreen = (props) => {
   if (cartItems.length > 0)
     test = (
       <View style={styles.item}>
-        <Text>Qty</Text>
-        <Text>Title</Text>
-        <Text>Product Price</Text>
-        <Text>Sub-Total</Text>
+        <View style={{ width: 32 }}>
+          <Text>Qty</Text>
+        </View>
+        <View style={{ width: "25%" }}>
+          <Text>Title</Text>
+        </View>
+        <View style={{ width: "25%" }}>
+          <Text>Cost</Text>
+        </View>
+        <View style={{ width: "20%" }}>
+          <Text>Sub-Total</Text>
+        </View>
+        <View>
+          <Text>Del</Text>
+        </View>
       </View>
     );
 
