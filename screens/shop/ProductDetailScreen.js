@@ -9,20 +9,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+import { addToCart } from "../../store/actions/cart";
 
 import Colors from "../../constants/Colors";
 
 const ProductDetailScreen = (props) => {
   const productId = props.navigation.getParam("productId");
   const selectedProduct = props.navigation.getParam("product");
-  //   const availableProducts = useSelector(
-  //     state => state.products.availableProducts
-  //   );
 
-  //   const selectedProduct = availableProducts.find(
-  //     product => product.id === productId
-  //   );
+  const dispatch = useDispatch();
 
   return (
     <ScrollView>
@@ -32,7 +29,7 @@ const ProductDetailScreen = (props) => {
           title="Add to Cart"
           color={Colors.primary}
           onPress={() => {
-            console.log("pressed");
+            dispatch(addToCart(selectedProduct));
           }}
         />
         {/* <TouchableOpacity>

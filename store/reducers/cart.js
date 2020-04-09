@@ -7,7 +7,7 @@ const initialState = {
   totalSum: 0,
 };
 
-const cartsReducer = (state = initialState, actions) => {
+const cartReducer = (state = initialState, actions) => {
   switch (actions.type) {
     case ADD_TO_CART:
       let updateOrNewCartItem;
@@ -27,6 +27,12 @@ const cartsReducer = (state = initialState, actions) => {
         );
       }
 
+      console.log({
+        ...state,
+        items: { ...state.items, [id]: updateOrNewCartItem },
+        totalSum: state.totalSum + price,
+      });
+
       return {
         ...state,
         items: { ...state.items, [id]: updateOrNewCartItem },
@@ -38,4 +44,4 @@ const cartsReducer = (state = initialState, actions) => {
   }
 };
 
-export default cartsReducer;
+export default cartReducer;

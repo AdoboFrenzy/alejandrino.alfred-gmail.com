@@ -34,7 +34,6 @@ const ProductsOverviewScreen = (props) => {
           });
         }}
         onAddToCart={() => {
-          console.log("add to cart pressed");
           dispatch(addToCart(itemData.item));
         }}
       />
