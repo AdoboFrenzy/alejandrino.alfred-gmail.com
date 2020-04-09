@@ -27,11 +27,11 @@ const cartReducer = (state = initialState, actions) => {
         );
       }
 
-      console.log({
-        ...state,
-        items: { ...state.items, [id]: updateOrNewCartItem },
-        totalSum: state.totalSum + price,
-      });
+      // console.log({
+      //   ...state,
+      //   items: { ...state.items, [id]: updateOrNewCartItem },
+      //   totalSum: state.totalSum + price,
+      // });
 
       return {
         ...state,

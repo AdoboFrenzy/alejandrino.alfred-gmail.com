@@ -5,13 +5,16 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
 import { addToCart } from "../../store/actions/cart";
 
 import ProductItem from "../../components/shop/ProductItem";
-7;
+
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import Headerbutton from "../../components/UI/HeaderButton";
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
@@ -49,8 +52,21 @@ const ProductsOverviewScreen = (props) => {
   );
 };
 
-ProductsOverviewScreen.navigationOptions = {
-  headerTitle: "All Products",
+ProductsOverviewScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: "All Products",
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={Headerbutton}>
+        <Item
+          title="addToCart"
+          iconName="shopping-cart"
+          onPress={() => {
+            navData.navigation.navigate({ routeName: "Cart" });
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 const styles = StyleSheet.create({});

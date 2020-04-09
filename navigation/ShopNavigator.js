@@ -6,6 +6,7 @@ import Colors from "../constants/Colors";
 
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductsDetailScreen from "../screens/shop/ProductDetailScreen";
+import CartScreen from "../screens/shop/CartScreen";
 
 const ProductsNavigator = createStackNavigator(
   {
@@ -13,6 +14,7 @@ const ProductsNavigator = createStackNavigator(
       screen: ProductsOverviewScreen,
     },
     ProductsDetail: ProductsDetailScreen,
+    Cart: CartScreen,
   },
   {
     defaultNavigationOptions: {
