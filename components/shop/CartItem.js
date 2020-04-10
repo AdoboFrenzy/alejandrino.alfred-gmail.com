@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
+
 const CartItem = (props) => {
   const { id, title, price, quantity, totalCost } = props;
   //   console.log(props);
@@ -9,26 +11,26 @@ const CartItem = (props) => {
       <TouchableOpacity>
         <View style={styles.item}>
           <TouchableOpacity onPress={props.onAddToCart}>
-            <View style={styles.qty}>
-              <Text>{quantity}</Text>
-            </View>
+            <Text style={styles.itemData}>
+              <Text style={styles.qty}>{quantity} </Text>
+              <Text style={styles.title}>{title.slice(0, 12)}</Text>
+            </Text>
           </TouchableOpacity>
-          <View style={styles.title}>
-            <Text>{title.slice(0, 12)}</Text>
+
+          <View style={styles.itemData}>
+            <Text style={styles.price}>${price}</Text>
+            {/* <Text>${totalCost.toFixed(2)}</Text> */}
+
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => {
+                console.log("deleting cart item");
+                props.onRemove();
+              }}
+            >
+              <Ionicons name="ios-trash" size={23} color="red" />
+            </TouchableOpacity>
           </View>
-          <View style={styles.price}>
-            <Text>${price}</Text>
-          </View>
-          <View style={styles.totalCost}>
-            <Text>${totalCost.toFixed(2)}</Text>
-          </View>
-          <Button
-            title="X"
-            color="red"
-            onPress={() => {
-              console.log("delete cart item");
-            }}
-          />
         </View>
       </TouchableOpacity>
     </View>
@@ -37,38 +39,53 @@ const CartItem = (props) => {
 
 const styles = StyleSheet.create({
   item: {
+    padding: 10,
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    // alignItems: "center",
+    marginBottom: 5,
+    marginHorizontal: 20,
+    shadowColor: "black",
+  },
+  itemData: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-    padding: 10,
-    shadowColor: "black",
-    backgroundColor: "white",
   },
   qty: {
+    fontFamily: "open-sans",
+    color: "#888",
+    fontSize: 16,
     // width: 16,
     // height: 16,
-    width: 32,
-    height: 32,
+    // width: 32,
+    // height: 32,
     // paddingHorizontal: 10,
     // paddingVertical: 10,
-    backgroundColor: "#98FB98",
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
+    // backgroundColor: "#98FB98",
+    // borderRadius: 16,
+    // justifyContent: "center",
+    // alignItems: "center",
   },
   title: {
-    width: "25%",
-    justifyContent: "flex-start",
+    fontFamily: "open-sans-bold",
+    fontSize: 16,
+    // justifyContent: "flex-start",
     // backgroundColor: "red",
   },
   price: {
-    // backgroundColor: "green",
-    width: "25%",
+    fontFamily: "open-sans-bold",
+    fontSize: 16,
+    // width: "25%",
+    // justifyContent: "flex-start",
   },
   totalCost: {
     // backgroundColor: "blue",
-    width: "20%",
+    // width: "20%",
+  },
+  deleteButton: {
+    // backgroundColor: "green",
+    marginLeft: 20,
   },
 });
 

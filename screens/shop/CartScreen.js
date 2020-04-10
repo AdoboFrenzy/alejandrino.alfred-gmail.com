@@ -4,12 +4,13 @@ import { View, Text, StyleSheet, FlatList, Button } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../constants/Colors";
 
-import { addToCart } from "../../store/actions/cart";
+import { addToCart, removeCartItem } from "../../store/actions/cart";
 
 import CartItem from "../../components/shop/CartItem";
 
 const CartScreen = (props) => {
   const cartTotalSum = useSelector((state) => state.cart.totalSum);
+
   const cartItems = useSelector((state) => {
     const transformedCartItems = [];
 
@@ -47,31 +48,34 @@ const CartScreen = (props) => {
         onAddToCart={() => {
           dispatch(addToCart(selectedProduct));
         }}
+        onRemove={() => {
+          dispatch(removeCartItem(selectedProduct));
+        }}
       />
     );
   };
 
-  let test;
-  if (cartItems.length > 0)
-    test = (
-      <View style={styles.item}>
-        <View style={{ width: 32 }}>
-          <Text>Qty</Text>
-        </View>
-        <View style={{ width: "25%" }}>
-          <Text>Title</Text>
-        </View>
-        <View style={{ width: "25%" }}>
-          <Text>Cost</Text>
-        </View>
-        <View style={{ width: "20%" }}>
-          <Text>Sub-Total</Text>
-        </View>
-        <View>
-          <Text>Del</Text>
-        </View>
-      </View>
-    );
+  // let test;
+  // if (cartItems.length > 0)
+  //   test = (
+  //     <View style={styles.item}>
+  //       <View style={{ width: 32 }}>
+  //         <Text>Qty</Text>
+  //       </View>
+  //       <View style={{ width: "25%" }}>
+  //         <Text>Title</Text>
+  //       </View>
+  //       <View style={{ width: "25%" }}>
+  //         <Text>Cost</Text>
+  //       </View>
+  //       <View style={{ width: "20%" }}>
+  //         <Text>Sub-Total</Text>
+  //       </View>
+  //       <View>
+  //         <Text>Del</Text>
+  //       </View>
+  //     </View>
+  //   );
 
   return (
     <View style={styles.screen}>
@@ -86,7 +90,7 @@ const CartScreen = (props) => {
           onPress={() => {}}
         />
       </View>
-      {test}
+      {/* {test} */}
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.productId}
@@ -99,6 +103,7 @@ const CartScreen = (props) => {
 const styles = StyleSheet.create({
   screen: {
     margin: 20,
+    backgroundColor: "transparent",
   },
   summary: {
     flexDirection: "row",
