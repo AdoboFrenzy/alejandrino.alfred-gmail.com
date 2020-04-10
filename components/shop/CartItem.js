@@ -1,37 +1,51 @@
 import React from "react";
-import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
+  TouchableNativeFeedbackBase,
+} from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 
 const CartItem = (props) => {
   const { id, title, price, quantity, totalCost } = props;
 
+  const TouchableComponent =
+    Platform.OS === "android" && Platform.Version >= 21
+      ? TouchableNativeFeedback
+      : TouchableOpacity;
+
   return (
     <View>
-      <TouchableOpacity>
+      <TouchableComponent>
         <View style={styles.item}>
-          <TouchableOpacity onPress={props.onAddToCart}>
+          <TouchableComponent onPress={props.onAddToCart}>
             <Text style={styles.itemData}>
               <Text style={styles.qty}>{quantity} </Text>
               <Text style={styles.title}>{title.slice(0, 12)}</Text>
             </Text>
-          </TouchableOpacity>
+          </TouchableComponent>
 
           <View style={styles.itemData}>
             <Text style={styles.price}>${price}</Text>
             {/* <Text>${totalCost.toFixed(2)}</Text> */}
 
-            <TouchableOpacity
+            <TouchableComponent
               style={styles.deleteButton}
               onPress={() => {
                 props.onRemove();
               }}
             >
               <Ionicons name="ios-trash" size={23} color="red" />
-            </TouchableOpacity>
+            </TouchableComponent>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableComponent>
     </View>
   );
 };
