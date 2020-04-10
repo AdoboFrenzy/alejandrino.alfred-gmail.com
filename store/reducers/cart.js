@@ -34,29 +34,35 @@ const cartReducer = (state = initialState, actions) => {
       };
 
     case REMOVE_FROM_CART:
-      // console.log(actions.product);
-      // console.log("removing " + actions.product.title);
-
       let updatedCartItem;
       var { id, title, price } = actions.product;
-
-      console.log(id);
+      const newSum = state.totalSum - price;
 
       if (state.items[id].quantity > 1) {
-        console.log("delete qty > 2");
-        // return {
-        //   ...state,
-        //   items: { ...state.items, [id]: updatedCartItem },
-        //   totalSum: state.totalSum - price,
-        // };
-        return state;
+        const { quantity, productTitle, productCost, totalCost } = state.items[
+          id
+        ];
+
+        updatedCartItem = new CartItem(
+          quantity - 1,
+          productTitle,
+          productCost,
+          totalCost - productCost
+        );
+
+        return {
+          ...state,
+          items: { ...state.items, [id]: updatedCartItem },
+          totalSum: newSum < 0 ? 0 : newSum,
+        };
       } else {
-        const updatedItems = delete { ...state.items }[id];
+        const updatedItems = { ...state.items };
+        delete updatedItems[id];
 
         return {
           ...state,
           items: updatedItems,
-          totalSum: state.totalSum - price,
+          totalSum: newSum < 0 ? 0 : newSum,
         };
       }
 

@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const CartItem = (props) => {
   const { id, title, price, quantity, totalCost } = props;
-  //   console.log(props);
+
   return (
     <View>
       <TouchableOpacity>
@@ -24,7 +24,6 @@ const CartItem = (props) => {
             <TouchableOpacity
               style={styles.deleteButton}
               onPress={() => {
-                console.log("deleting cart item");
                 props.onRemove();
               }}
             >
