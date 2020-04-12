@@ -1,10 +1,11 @@
-export const ADD_TO_ORDER = "ADD_TO_ORDER";
+export const ADD_ORDER = "ADD_ORDER";
 
-export const addToOrder = (cartItems) => {
+export const addToOrder = (cartItems, totalAmount) => {
   return {
-    type: ADD_TO_ORDER,
+    type: ADD_ORDER,
     orderData: {
       cartItems,
+      totalAmount,
     },
   };
 };

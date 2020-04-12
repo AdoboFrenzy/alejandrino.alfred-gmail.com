@@ -1,15 +1,29 @@
-import ADD_TO_ORDER from "../actions/orders";
+import { ADD_ORDER } from "../actions/orders";
+
+import Order from "../../models/order";
 
 const initialState = {
-  items: [],
+  orders: [],
 };
 
-const ordersReducer = (state = initialState, actions) => {
-  switch (actions.type) {
-    case ADD_TO_ORDER:
-      return state;
+const ordersReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_ORDER:
+      const { cartItems, totalAmount } = action.orderData;
+      const newOrderDate = new Date();
+
+      const newOrder = new Order(
+        newOrderDate.toString(),
+        cartItems,
+        totalAmount,
+        newOrderDate
+      );
+
+      return { ...state, orders: state.orders.concat(newOrder) };
 
     default:
       return state;
   }
 };
+
+export default ordersReducer;

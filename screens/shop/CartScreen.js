@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../constants/Colors";
 
 import { addToCart, removeCartItem } from "../../store/actions/cart";
+import { addToOrder } from "../../store/actions/orders";
 
 import CartItem from "../../components/shop/CartItem";
 
@@ -55,28 +56,6 @@ const CartScreen = (props) => {
     );
   };
 
-  // let test;
-  // if (cartItems.length > 0)
-  //   test = (
-  //     <View style={styles.item}>
-  //       <View style={{ width: 32 }}>
-  //         <Text>Qty</Text>
-  //       </View>
-  //       <View style={{ width: "25%" }}>
-  //         <Text>Title</Text>
-  //       </View>
-  //       <View style={{ width: "25%" }}>
-  //         <Text>Cost</Text>
-  //       </View>
-  //       <View style={{ width: "20%" }}>
-  //         <Text>Sub-Total</Text>
-  //       </View>
-  //       <View>
-  //         <Text>Del</Text>
-  //       </View>
-  //     </View>
-  //   );
-
   return (
     <View style={styles.screen}>
       <View style={styles.summary}>
@@ -87,10 +66,15 @@ const CartScreen = (props) => {
           title="Order Now"
           color={Colors.accent}
           disabled={cartItems.length === 0}
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(addToOrder(cartItems, cartTotalSum));
+          }}
         />
       </View>
-      {/* {test} */}
+      <Button
+        title="test, see order screen"
+        onPress={() => props.navigation.navigate("Orders")}
+      />
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.productId}
