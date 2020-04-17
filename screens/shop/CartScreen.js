@@ -71,10 +71,7 @@ const CartScreen = (props) => {
           }}
         />
       </View>
-      <Button
-        title="test, see order screen"
-        onPress={() => props.navigation.navigate("Orders")}
-      />
+
       <FlatList
         data={cartItems}
         keyExtractor={(item) => item.productId}

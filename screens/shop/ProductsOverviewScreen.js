@@ -61,7 +61,7 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
           title="menu"
           iconName="bars"
           onPress={() => {
-            console.log("menu pressed");
+            navData.navigation.toggleDrawer();
           }}
         />
       </HeaderButtons>
