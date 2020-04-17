@@ -32,6 +32,12 @@ const OrdersScreen = (props) => {
   );
 };
 
+OrdersScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: "Your Orders",
+  };
+};
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,

@@ -84,6 +84,12 @@ const CartScreen = (props) => {
   );
 };
 
+CartScreen.navigationOptions = (navData) => {
+  return {
+    headerTitle: "Your Cart",
+  };
+};
+
 const styles = StyleSheet.create({
   screen: {
     margin: 20,
