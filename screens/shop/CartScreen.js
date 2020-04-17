@@ -70,7 +70,10 @@ const CartScreen = (props) => {
             dispatch(addToOrder(cartItems, cartTotalSum));
             setTimeout(() => {
               props.navigation.popToTop();
-            }, 500);
+            }, 250);
+            setTimeout(() => {
+              props.navigation.navigate("Orders");
+            }, 300);
           }}
         />
       </View>

@@ -26,7 +26,13 @@ const OrderItem = (props) => {
         <Text style={styles.totalAmount}>{totalAmount.toFixed(2)}</Text>
         <Text style={styles.date}>{date.toString()}</Text>
       </View>
-      <Button title="Show Details" color={Colors.primary} />
+      <Button
+        title="Show Details"
+        color={Colors.primary}
+        onPress={() => {
+          console.log("success");
+        }}
+      />
 
       {/* <FlatList
         data={items}
