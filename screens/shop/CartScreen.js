@@ -68,6 +68,9 @@ const CartScreen = (props) => {
           disabled={cartItems.length === 0}
           onPress={() => {
             dispatch(addToOrder(cartItems, cartTotalSum));
+            setTimeout(() => {
+              props.navigation.popToTop();
+            }, 500);
           }}
         />
       </View>
