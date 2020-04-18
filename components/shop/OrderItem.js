@@ -1,5 +1,14 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+
+import { Ionicons } from "@expo/vector-icons";
 
 import CartItem from "../shop/CartItem";
 
@@ -8,37 +17,49 @@ import Colors from "../../constants/Colors";
 const OrderItem = (props) => {
   const { id, items, totalAmount, date } = props;
 
-  // const renderCartItem = (itemData) => {
-  //   return (
-  //     <CartItem
-  //       id={itemData.item.productId}
-  //       title={itemData.item.productTitle}
-  //       price={itemData.item.productCost}
-  //       quantity={itemData.item.quantity}
-  //       totalCost={itemData.item.totalCost}
-  //     />
-  //   );
-  // };
+  const [showDetails, setShowDetails] = useState(false);
+
+  const detailButton = showDetails ? (
+    <Ionicons name="ios-arrow-up" size={23} color={Colors.primary} />
+  ) : (
+    <Ionicons name="ios-arrow-down" size={23} color={Colors.primary} />
+  );
 
   return (
     <View style={styles.orderItem}>
       <View style={styles.summary}>
         <Text style={styles.totalAmount}>{totalAmount.toFixed(2)}</Text>
-        <Text style={styles.date}>{date.toString()}</Text>
+        <Text style={styles.date}>{date}</Text>
       </View>
-      <Button
-        title="Show Details"
-        color={Colors.primary}
+      {/* <View style={styles.buttonContainer}>
+        <Button
+          title={showDetails ? "Hide Details" : "Show Details"}
+          color={Colors.primary}
+          onPress={() => {
+            setShowDetails(!showDetails);
+          }}
+        />
+      </View> */}
+      <TouchableOpacity
+        style={styles.buttonContainer}
         onPress={() => {
-          console.log("success");
+          setShowDetails(!showDetails);
         }}
-      />
-
-      {/* <FlatList
-        data={items}
-        keyExtractor={(item) => item.id}
-        renderItem={renderCartItem}
-      /> */}
+      >
+        {detailButton}
+      </TouchableOpacity>
+      {showDetails && (
+        <View style={styles.detailItems}>
+          {items.map((item) => (
+            <CartItem
+              key={item.productId}
+              title={item.productTitle}
+              price={item.productCost}
+              quantity={item.quantity}
+            />
+          ))}
+        </View>
+      )}
     </View>
   );
 };
@@ -54,10 +75,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     margin: 20,
     padding: 10,
+    // alignItems: "center",
   },
   summary: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+  buttonContainer: {
     alignItems: "center",
   },
   totalAmount: {
@@ -67,6 +93,9 @@ const styles = StyleSheet.create({
   date: {
     fontFamily: "open-sans",
     fontSize: 16,
+  },
+  detailItems: {
+    width: "100%",
   },
 });
 

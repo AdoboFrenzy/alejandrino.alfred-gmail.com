@@ -52,6 +52,7 @@ const CartScreen = (props) => {
         onRemove={() => {
           dispatch(removeCartItem(selectedProduct));
         }}
+        deletable
       />
     );
   };
@@ -70,10 +71,10 @@ const CartScreen = (props) => {
             dispatch(addToOrder(cartItems, cartTotalSum));
             setTimeout(() => {
               props.navigation.popToTop();
-            }, 250);
-            setTimeout(() => {
-              props.navigation.navigate("Orders");
             }, 300);
+            // setTimeout(() => {
+            //   props.navigation.navigate("Orders");
+            // }, 400);
           }}
         />
       </View>

@@ -13,7 +13,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 const CartItem = (props) => {
-  const { id, title, price, quantity, totalCost } = props;
+  const { id, title, price, quantity, totalCost, deletable } = props;
 
   const TouchableComponent =
     Platform.OS === "android" && Platform.Version >= 21
@@ -35,14 +35,16 @@ const CartItem = (props) => {
             <Text style={styles.price}>${price}</Text>
             {/* <Text>${totalCost.toFixed(2)}</Text> */}
 
-            <TouchableComponent
-              style={styles.deleteButton}
-              onPress={() => {
-                props.onRemove();
-              }}
-            >
-              <Ionicons name="ios-trash" size={23} color="red" />
-            </TouchableComponent>
+            {deletable && (
+              <TouchableComponent
+                style={styles.deleteButton}
+                onPress={() => {
+                  props.onRemove();
+                }}
+              >
+                <Ionicons name="ios-trash" size={23} color="red" />
+              </TouchableComponent>
+            )}
           </View>
         </View>
       </TouchableComponent>

@@ -15,7 +15,7 @@ const OrdersScreen = (props) => {
         id={itemData.item.id}
         items={itemData.item.items}
         totalAmount={itemData.item.totalAmount}
-        date={itemData.item.date}
+        date={itemData.item.readableDate}
       />
     );
   };
