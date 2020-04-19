@@ -9,6 +9,17 @@ import OrderItem from "../../components/shop/OrderItem";
 const OrdersScreen = (props) => {
   const orders = useSelector((state) => state.orders.orders);
 
+  if (orders.length < 1) {
+    return (
+      <View style={styles.screen}>
+        <Text style={styles.screenText}>Your Orders List is Empty.</Text>
+        <Text style={styles.screenText}>
+          Add items to your Cart, then submit some Orders!
+        </Text>
+      </View>
+    );
+  }
+
   const renderOrderItem = (itemData) => {
     return (
       <OrderItem
@@ -55,6 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  screenText: { fontFamily: "open-sans", fontSize: 14 },
 });
 
 export default OrdersScreen;
