@@ -41,7 +41,14 @@ const UserProductsScreen = (props) => {
           color={Colors.primary}
           title="Delete"
           onPress={() => {
-            dispatch(deleteProduct(itemData.item.id));
+            // dispatch(deleteProduct(itemData.item.id));
+            props.navigation.navigate({
+              routeName: "DeleteProducts",
+              params: {
+                productId: itemData.item.id,
+                title: itemData.item.title,
+              },
+            });
           }}
         />
       </ProductItem>

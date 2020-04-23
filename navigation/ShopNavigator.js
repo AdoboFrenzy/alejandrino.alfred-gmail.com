@@ -9,10 +9,13 @@ import Colors from "../constants/Colors";
 
 import ProductsOverviewScreen from "../screens/shop/ProductsOverviewScreen";
 import ProductsDetailScreen from "../screens/shop/ProductDetailScreen";
+
 import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
+
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";
+import DeleteProductScreen from "../screens/user/DeleteProductScreen";
 
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 
@@ -71,6 +74,7 @@ const UserProductsNavigator = createStackNavigator(
   {
     UserProducts: UserProductsScreen,
     EditUserProducts: EditProductScreen,
+    DeleteProducts: DeleteProductScreen,
   },
   {
     navigationOptions: navOptionsDrawerIcon("md-cash"),

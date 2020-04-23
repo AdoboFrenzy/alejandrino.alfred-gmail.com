@@ -15,9 +15,19 @@ const productsReducer = (state = initialState, action) => {
       return state;
 
     case DELETE_PRODUCT:
-      console.log("deleting product!");
-      console.log(action.productId);
-      return state;
+      let updatedProducts = [...state.availableProducts].filter(
+        (product) => product.id !== action.productId
+      );
+
+      let updatedUserProducts = updatedProducts.filter(
+        (product) => product.ownerId == "u1"
+      );
+
+      return {
+        ...state,
+        availableProducts: updatedProducts,
+        userProducts: updatedUserProducts,
+      };
 
     default:
       return state;
