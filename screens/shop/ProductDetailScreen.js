@@ -32,12 +32,6 @@ const ProductDetailScreen = (props) => {
             dispatch(addToCart(selectedProduct));
           }}
         />
-        {/* <TouchableOpacity>
-          <View style={styles.test}>
-            <Text style={styles.testText}>Test</Text>
-            <Text>test2</Text>
-          </View>
-        </TouchableOpacity> */}
       </View>
 
       <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>

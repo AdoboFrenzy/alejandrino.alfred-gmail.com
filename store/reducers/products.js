@@ -1,4 +1,5 @@
-import ADD_PRODUCT from "../actions/products";
+import { ADD_PRODUCT } from "../actions/products";
+import { DELETE_PRODUCT } from "../actions/products";
 
 import PRODUCTS from "../../data/dummy-data";
 
@@ -11,6 +12,11 @@ const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT:
       console.log("product added!");
+      return state;
+
+    case DELETE_PRODUCT:
+      console.log("deleting product!");
+      console.log(action.productId);
       return state;
 
     default:

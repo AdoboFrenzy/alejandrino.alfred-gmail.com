@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Platform,
+  Button,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -16,30 +17,44 @@ import ProductItem from "../../components/shop/ProductItem";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import Headerbutton from "../../components/UI/HeaderButton";
 
+import Colors from "../../constants/Colors";
+
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
 
   const dispatch = useDispatch();
 
   const renderProductItem = (itemData) => {
+    const selectProduct = () => {
+      props.navigation.navigate({
+        routeName: "ProductsDetail",
+        params: {
+          productId: itemData.item.id,
+          product: itemData.item,
+        },
+      });
+    };
+
     return (
       <ProductItem
         image={itemData.item.imageUrl}
         title={itemData.item.title}
         price={itemData.item.price}
-        onViewDetail={() => {
-          props.navigation.navigate({
-            routeName: "ProductsDetail",
-            params: {
-              productId: itemData.item.id,
-              product: itemData.item,
-            },
-          });
-        }}
-        onAddToCart={() => {
-          dispatch(addToCart(itemData.item));
-        }}
-      />
+        onSelect={selectProduct}
+      >
+        <Button
+          color={Colors.primary}
+          title="View Details"
+          onPress={selectProduct}
+        />
+        <Button
+          color={Colors.primary}
+          title="To Cart"
+          onPress={() => {
+            dispatch(addToCart(itemData.item));
+          }}
+        />
+      </ProductItem>
     );
   };
 
