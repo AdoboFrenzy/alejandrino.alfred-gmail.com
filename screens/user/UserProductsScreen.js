@@ -9,8 +9,6 @@ import ProductItem from "../../components/shop/ProductItem";
 const UserProductsScreen = (props) => {
   const userProducts = useSelector((state) => state.products.userProducts);
 
-  console.log(userProducts);
-
   const renderUserProductItem = (itemData) => {
     return (
       <ProductItem
@@ -27,16 +25,6 @@ const UserProductsScreen = (props) => {
       keyExtractor={(item) => item.id}
       renderItem={renderUserProductItem}
     />
-    // <View style={styles.screen}>
-    //   <Text>User Product Screen</Text>
-    //   <Button
-    //     title="Edit Products"
-    //     onPress={() => {
-    //       props.navigation.navigate("EditUserProducts");
-    //     }}
-    //   />
-
-    // </View>
   );
 };
 
