@@ -12,18 +12,22 @@ const DeleteProductScreen = (props) => {
 
   return (
     <View style={styles.screen}>
-      <Text style={styles.context}>Please confirm that you want to delete</Text>
-      <Text style={styles.title}>{title}</Text>
-      <Button
-        title="Confirm Delete"
-        onPress={() => {
-          //   console.log("pressed delete");
-          dispatch(deleteProduct(productId));
-          setTimeout(() => {
-            props.navigation.popToTop();
-          }, 250);
-        }}
-      />
+      <View style={styles.context}>
+        <Text style={styles.message}>
+          Please confirm that you want to delete:
+        </Text>
+        <Text style={styles.title}>{title}</Text>
+        <Button
+          title="Delete"
+          onPress={() => {
+            //   console.log("pressed delete");
+            dispatch(deleteProduct(productId));
+            setTimeout(() => {
+              props.navigation.popToTop();
+            }, 250);
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -33,6 +37,7 @@ DeleteProductScreen.navigationOptions = (navData) => {
   return {
     headerTitle: "Deleting Product",
     headerBackTitle: "Cancel",
+    // headerLeft: () => <Button title="< Cancel" onPress={() => {}} />,
   };
 };
 
@@ -43,12 +48,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   context: {
+    alignItems: "center",
+    shadowColor: "black",
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 8,
+    elevation: 5,
+    borderRadius: 10,
+    backgroundColor: "white",
+    padding: 20,
+  },
+  message: {
     fontFamily: "open-sans",
-    fontSize: 16,
+    fontSize: 18,
   },
   title: {
     fontFamily: "open-sans-bold",
-    fontSize: 18,
+    fontSize: 20,
+    marginTop: 10,
+    marginBottom: 20,
   },
 });
 

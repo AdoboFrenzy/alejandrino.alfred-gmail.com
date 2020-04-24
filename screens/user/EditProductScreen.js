@@ -9,6 +9,10 @@ const EditProductScreen = (props) => {
   );
 };
 
+EditProductScreen.navigationOptions = {
+  headerTitle: "Editing Product",
+};
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
