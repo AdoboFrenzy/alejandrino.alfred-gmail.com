@@ -86,7 +86,7 @@ const ShopNavigator = createDrawerNavigator(
   {
     Products: ProductsNavigator,
     Orders: OrdersNavigator,
-    UserProducts: UserProductsNavigator,
+    Admin: UserProductsNavigator,
   },
   {
     contentOptions: { activeTintColor: Colors.primary },

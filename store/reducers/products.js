@@ -19,8 +19,8 @@ const productsReducer = (state = initialState, action) => {
         (product) => product.id !== action.productId
       );
 
-      let updatedUserProducts = updatedProducts.filter(
-        (product) => product.ownerId == "u1"
+      let updatedUserProducts = [...state.userProducts].filter(
+        (product) => product.id !== action.productId
       );
 
       return {

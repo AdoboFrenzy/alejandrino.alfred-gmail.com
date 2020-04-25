@@ -80,6 +80,17 @@ UserProductsScreen.navigationOptions = (navData) => {
         </HeaderButtons>
       );
     },
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title="Add Product"
+          iconName="plus"
+          onPress={() => {
+            navData.navigation.navigate("EditUserProducts");
+          }}
+        />
+      </HeaderButtons>
+    ),
   };
 };
 
