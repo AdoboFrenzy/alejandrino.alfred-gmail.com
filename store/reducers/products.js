@@ -3,6 +3,8 @@ import { DELETE_PRODUCT } from "../actions/products";
 
 import PRODUCTS from "../../data/dummy-data";
 
+import Product from "../../models/product";
+
 const initialState = {
   availableProducts: PRODUCTS,
   userProducts: PRODUCTS.filter((product) => product.ownerId == "u1"),
@@ -11,8 +13,34 @@ const initialState = {
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT:
-      console.log("product added!");
-      return state;
+      const { title, imageURL, description, price } = action.newProductInfo;
+
+      console.log(action.newProductInfo);
+
+      const lastProductIdNumber =
+        parseInt(
+          state.availableProducts[state.availableProducts.length - 1].id.slice(
+            1
+          )
+        ) + 1;
+
+      const newProductId = "p" + lastProductIdNumber;
+
+      const result = new Product(
+        newProductId,
+        "u1",
+        ...Object.values(action.newProductInfo)
+      );
+
+      let newProducts = [...state.availableProducts, result];
+
+      let newUserProducts = [...state.userProducts, result];
+
+      return {
+        ...state,
+        availableProducts: newProducts,
+        userProducts: newUserProducts,
+      };
 
     case DELETE_PRODUCT:
       let updatedProducts = [...state.availableProducts].filter(

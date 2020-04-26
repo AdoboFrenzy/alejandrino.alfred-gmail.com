@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Button } from "react-native";
-import {} from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { addProduct } from "../../store/actions/products";
 
 import Colors from "../../constants/Colors";
 
@@ -20,6 +22,8 @@ const EditProductScreen = (props) => {
   const [productDescription, setProductDescription] = useState(description);
   const [productImage, setProductImage] = useState(imageUrl);
   const [productPrice, setProductPrice] = useState(price);
+
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.screen}>
@@ -81,7 +85,14 @@ const EditProductScreen = (props) => {
           title="Save"
           color={Colors.primary}
           onPress={() => {
-            console.log("saved!");
+            dispatch(
+              addProduct({
+                title: productTitle,
+                imageURL: productImage,
+                description: productDescription,
+                price: parseFloat(productPrice),
+              })
+            );
           }}
         />
       </View>
