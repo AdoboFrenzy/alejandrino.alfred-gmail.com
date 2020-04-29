@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  ScrollView,
+  Button,
+} from "react-native";
 import { useDispatch } from "react-redux";
 
 import { addProduct } from "../../store/actions/products";
@@ -25,78 +32,77 @@ const EditProductScreen = (props) => {
 
   const dispatch = useDispatch();
 
+  const disabledStyle = !!id ? { backgroundColor: "lightgrey" } : {};
+
   return (
-    <View style={styles.screen}>
-      <View>
-        {!!selectedProduct.id ? (
+    <ScrollView>
+      <View style={styles.form}>
+        <View>
           <Text style={styles.title}>
-            Editing{" "}
             <Text style={{ fontFamily: "open-sans-bold" }}>
               {selectedProduct.title}
             </Text>
           </Text>
-        ) : (
-          <Text>Adding New Product</Text>
-        )}
-      </View>
+        </View>
 
-      <View style={styles.container}>
-        <View style={styles.subContainer}>
-          <Text>Title: </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Product Title"
-            onChangeText={(text) => setProductTitle(text)}
-            defaultValue={productTitle}
+        <View style={styles.container}>
+          <View style={styles.subContainer}>
+            <Text style={styles.label}>Title: </Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Product Title"
+              onChangeText={(text) => setProductTitle(text)}
+              defaultValue={productTitle}
+            />
+          </View>
+          <View style={styles.subContainer}>
+            <Text style={styles.label}>Description: </Text>
+            <TextInput
+              style={styles.textInput}
+              multiline
+              numberOfLines={4}
+              placeholder="Product Description"
+              onChangeText={(text) => setProductDescription(text)}
+              defaultValue={productDescription}
+            />
+          </View>
+          <View style={styles.subContainer}>
+            <Text style={styles.label}>Image URL: </Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Product Image"
+              onChangeText={(text) => setProductImage(text)}
+              defaultValue={productImage}
+            />
+          </View>
+          <View style={styles.subContainer}>
+            <Text style={styles.label}>Price: </Text>
+            <TextInput
+              editable={!selectedProduct.id}
+              keyboardType="number-pad"
+              style={{ ...styles.textInput, ...disabledStyle }}
+              placeholder="Product Price"
+              onChangeText={(text) => setProductPrice(text)}
+              defaultValue={productPrice ? productPrice.toString() : ""}
+            />
+          </View>
+          <Button
+            title="Save"
+            color={Colors.primary}
+            onPress={() => {
+              dispatch(
+                addProduct({
+                  title: productTitle,
+                  imageURL: productImage,
+                  description: productDescription,
+                  price: parseFloat(productPrice),
+                })
+              );
+            }}
           />
         </View>
-        <View style={styles.subContainer}>
-          <Text>Description: </Text>
-          <TextInput
-            style={styles.textInput}
-            multiline
-            numberOfLines={4}
-            placeholder="Product Description"
-            onChangeText={(text) => setProductDescription(text)}
-            defaultValue={productDescription}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <Text>Image URL: </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Product Image"
-            onChangeText={(text) => setProductImage(text)}
-            defaultValue={productImage}
-          />
-        </View>
-        <View style={styles.subContainer}>
-          <Text>Price: </Text>
-          <TextInput
-            editable={!selectedProduct.id}
-            keyboardType="number-pad"
-            style={styles.textInput}
-            placeholder="Product Price"
-            onChangeText={(text) => setProductPrice(text)}
-            defaultValue={productPrice ? productPrice.toString() : ""}
-          />
-        </View>
-        <Button
-          title="Save"
-          color={Colors.primary}
-          onPress={() => {
-            dispatch(
-              addProduct({
-                title: productTitle,
-                imageURL: productImage,
-                description: productDescription,
-                price: parseFloat(productPrice),
-              })
-            );
-          }}
-        />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -109,31 +115,40 @@ EditProductScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
-  screen: {
+  form: {
+    margin: 20,
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },
   title: {
     fontFamily: "open-sans",
-    fontSize: 20,
-    marginBottom: 10,
+    fontSize: 18,
+    marginBottom: 20,
+    color: Colors.primary,
   },
   container: {
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
-    width: "75%",
+    // shadowColor: "black",
+    // shadowOpacity: 0.26,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowRadius: 8,
+    // elevation: 5,
+    // borderRadius: 10,
+    // backgroundColor: "white",
+    width: "100%",
     padding: 20,
   },
-  subContainer: { marginVertical: 5 },
+  subContainer: {
+    width: "100%",
+    marginVertical: 5,
+  },
+  label: {
+    fontFamily: "open-sans",
+    fontSize: 16,
+  },
   textInput: {
-    borderWidth: 1,
-    padding: 10,
+    borderBottomWidth: 1,
+    padding: 5,
     margin: 10,
     fontSize: 16,
   },
