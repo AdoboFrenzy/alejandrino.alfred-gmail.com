@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,6 +8,9 @@ import {
   Button,
 } from "react-native";
 import { useDispatch } from "react-redux";
+
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton from "../../components/UI/HeaderButton";
 
 import { addProduct } from "../../store/actions/products";
 
@@ -31,6 +34,22 @@ const EditProductScreen = (props) => {
   const [productPrice, setProductPrice] = useState(price);
 
   const dispatch = useDispatch();
+
+  const submitHandler = useCallback(() => {
+    console.log("submitting!");
+    dispatch(
+      addProduct({
+        title: productTitle,
+        imageURL: productImage,
+        description: productDescription,
+        price: parseFloat(productPrice),
+      })
+    );
+  }, [productTitle, productImage, productDescription, productPrice]);
+
+  useEffect(() => {
+    props.navigation.setParams({ submit: submitHandler });
+  }, [submitHandler]);
 
   const disabledStyle = !!id ? { backgroundColor: "lightgrey" } : {};
 
@@ -86,20 +105,6 @@ const EditProductScreen = (props) => {
               defaultValue={productPrice ? productPrice.toString() : ""}
             />
           </View>
-          <Button
-            title="Save"
-            color={Colors.primary}
-            onPress={() => {
-              dispatch(
-                addProduct({
-                  title: productTitle,
-                  imageURL: productImage,
-                  description: productDescription,
-                  price: parseFloat(productPrice),
-                })
-              );
-            }}
-          />
         </View>
       </View>
     </ScrollView>
@@ -109,8 +114,15 @@ const EditProductScreen = (props) => {
 EditProductScreen.navigationOptions = (navData) => {
   const productId = navData.navigation.getParam("productId");
 
+  const submitHandler = navData.navigation.getParam("submit");
+
   return {
     headerTitle: !!productId ? "Editing Product" : "Adding New Product",
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item title="save" iconName="save" onPress={submitHandler} />
+      </HeaderButtons>
+    ),
   };
 };
 
