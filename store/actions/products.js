@@ -9,7 +9,7 @@ export const addProduct = (newProductInfo) => ({
 
 export const editProduct = (editProductInfo) => ({
   type: EDIT_PRODUCT,
-  EditProductInfo,
+  editProductInfo,
 });
 
 export const deleteProduct = (productId) => ({

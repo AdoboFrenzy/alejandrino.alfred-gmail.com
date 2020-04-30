@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 
-import { addProduct } from "../../store/actions/products";
+import { addProduct, editProduct } from "../../store/actions/products";
 
 import Colors from "../../constants/Colors";
 
@@ -35,16 +35,19 @@ const EditProductScreen = (props) => {
 
   const dispatch = useDispatch();
 
+  const addorEditProduct = !!id ? editProduct : addProduct;
+
   const submitHandler = useCallback(() => {
-    console.log("submitting!");
     dispatch(
-      addProduct({
+      addorEditProduct({
         title: productTitle,
         imageURL: productImage,
         description: productDescription,
         price: parseFloat(productPrice),
+        existingId: id,
       })
     );
+    props.navigation.popToTop();
   }, [productTitle, productImage, productDescription, productPrice]);
 
   useEffect(() => {

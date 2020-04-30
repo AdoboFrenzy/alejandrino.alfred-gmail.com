@@ -1,5 +1,4 @@
-import { ADD_PRODUCT } from "../actions/products";
-import { DELETE_PRODUCT } from "../actions/products";
+import { ADD_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from "../actions/products";
 
 import PRODUCTS from "../../data/dummy-data";
 
@@ -13,9 +12,10 @@ const initialState = {
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT:
-      const { title, imageURL, description, price } = action.newProductInfo;
-
-      console.log(action.newProductInfo);
+      title = action.newProductInfo.title;
+      imageURL = action.newProductInfo.imageURL;
+      description = action.newProductInfo.description;
+      price = action.newProductInfo.price;
 
       const lastProductIdNumber =
         parseInt(
@@ -40,6 +40,42 @@ const productsReducer = (state = initialState, action) => {
         ...state,
         availableProducts: newProducts,
         userProducts: newUserProducts,
+      };
+
+    case EDIT_PRODUCT:
+      title = action.editProductInfo.title;
+      imageURL = action.editProductInfo.imageURL;
+      description = action.editProductInfo.description;
+      price = action.editProductInfo.price;
+      existingId = action.editProductInfo.existingId;
+
+      const availableProductsIndex = state.availableProducts.findIndex(
+        (product) => product.id === existingId
+      );
+
+      const productIndex = state.userProducts.findIndex(
+        (product) => product.id === existingId
+      );
+
+      const updatedProduct = new Product(
+        existingId,
+        state.userProducts[productIndex].id,
+        title,
+        imageURL,
+        description,
+        state.userProducts[productIndex].price
+      );
+
+      const editedAvailableProducts = [...state.availableProducts];
+      editedAvailableProducts[availableProductsIndex] = updatedProduct;
+
+      const editedUserProducts = [...state.userProducts];
+      editedUserProducts[productIndex] = updatedProduct;
+
+      return {
+        ...state,
+        availableProducts: editedAvailableProducts,
+        userProducts: editedUserProducts,
       };
 
     case DELETE_PRODUCT:
