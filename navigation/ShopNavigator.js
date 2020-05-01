@@ -74,7 +74,7 @@ const UserProductsNavigator = createStackNavigator(
   {
     UserProducts: UserProductsScreen,
     EditUserProducts: EditProductScreen,
-    DeleteProducts: DeleteProductScreen,
+    // DeleteProducts: DeleteProductScreen,
   },
   {
     navigationOptions: navOptionsDrawerIcon("md-cash"),

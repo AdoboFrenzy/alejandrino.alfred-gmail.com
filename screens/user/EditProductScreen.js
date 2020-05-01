@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   Button,
+  Alert,
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -28,10 +29,12 @@ const EditProductScreen = (props) => {
 
   const { id, ownerId, title, imageUrl, description, price } = selectedProduct;
 
-  const [productTitle, setProductTitle] = useState(title);
-  const [productDescription, setProductDescription] = useState(description);
-  const [productImage, setProductImage] = useState(imageUrl);
-  const [productPrice, setProductPrice] = useState(price);
+  const [productTitle, setProductTitle] = useState(!!id ? title : "");
+  const [productDescription, setProductDescription] = useState(
+    !!id ? description : ""
+  );
+  const [productImage, setProductImage] = useState(!!id ? imageUrl : "");
+  const [productPrice, setProductPrice] = useState(!!id ? price : "");
 
   const dispatch = useDispatch();
 
@@ -48,7 +51,14 @@ const EditProductScreen = (props) => {
       })
     );
     props.navigation.popToTop();
-  }, [productTitle, productImage, productDescription, productPrice]);
+  }, [
+    dispatch,
+    id,
+    productTitle,
+    productImage,
+    productDescription,
+    productPrice,
+  ]);
 
   useEffect(() => {
     props.navigation.setParams({ submit: submitHandler });
