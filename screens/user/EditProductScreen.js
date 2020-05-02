@@ -13,6 +13,8 @@ import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
 
+import Input from "../../components/UI/Input";
+
 import { addProduct, editProduct } from "../../store/actions/products";
 
 import Colors from "../../constants/Colors";
@@ -153,7 +155,17 @@ const EditProductScreen = (props) => {
         </View>
 
         <View style={styles.container}>
-          <View style={styles.subContainer}>
+          <Input
+            label="Label"
+            placeholder="Product Title"
+            onChangeText={(text) => {
+              textChangeHandler("productTitle", text);
+            }}
+            defaultValue={formState.inputValues.productTitle}
+            showErrors={formState.showErrors}
+            validInput={formState.inputValidities.productTitle}
+          />
+          {/* <View style={styles.subContainer}>
             <Text style={styles.label}>Title: </Text>
             <TextInput
               style={styles.textInput}
@@ -172,9 +184,19 @@ const EditProductScreen = (props) => {
             ) : (
               <Text></Text>
             )}
-          </View>
+          </View> */}
 
-          <View style={styles.subContainer}>
+          <Input
+            label="Description"
+            placeholder="Product Description"
+            onChangeText={(text) => {
+              textChangeHandler("productDescription", text);
+            }}
+            defaultValue={formState.inputValues.productDescription}
+            showErrors={formState.showErrors}
+            validInput={formState.inputValidities.productDescription}
+          />
+          {/* <View style={styles.subContainer}>
             <Text style={styles.label}>Description: </Text>
             <TextInput
               style={styles.textInput}
@@ -193,9 +215,20 @@ const EditProductScreen = (props) => {
               </Text>
             ) : (
               <Text></Text>
-            )}
-          </View>
-          <View style={styles.subContainer}>
+            )} */}
+          {/* </View> */}
+
+          <Input
+            label="Image URL"
+            placeholder="Product Image URL"
+            onChangeText={(text) => {
+              textChangeHandler("productImage", text);
+            }}
+            defaultValue={formState.inputValues.productImage}
+            showErrors={formState.showErrors}
+            validInput={formState.inputValidities.productImage}
+          />
+          {/* <View style={styles.subContainer}>
             <Text style={styles.label}>Image URL: </Text>
             <TextInput
               style={styles.textInput}
@@ -210,8 +243,19 @@ const EditProductScreen = (props) => {
             ) : (
               <Text></Text>
             )}
-          </View>
-          <View style={styles.subContainer}>
+          </View> */}
+
+          <Input
+            label="Price"
+            placeholder="Product Price"
+            onChangeText={(text) => {
+              textChangeHandler("productPrice", text);
+            }}
+            defaultValue={formState.inputValues.productPrice.toString()}
+            showErrors={formState.showErrors}
+            validInput={formState.inputValidities.productPrice}
+          />
+          {/* <View style={styles.subContainer}>
             <Text style={styles.label}>Price: </Text>
             <TextInput
               editable={!selectedProduct.id}
@@ -230,7 +274,7 @@ const EditProductScreen = (props) => {
             ) : (
               <Text></Text>
             )}
-          </View>
+          </View> */}
         </View>
       </View>
     </ScrollView>
