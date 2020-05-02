@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useReducer } from "react";
 import {
   View,
   Text,
@@ -24,45 +24,120 @@ import Colors from "../../constants/Colors";
 //   this.description = description;
 //   this.price = price;
 
+const FORM_INPUT_UPDATE = "FORM_INPUT_UPDATE";
+const SHOW_ERRORS = "SHOW_ERRORS";
+
+const formReducer = (state, action) => {
+  if (action.type === FORM_INPUT_UPDATE) {
+    const updatedValues = {
+      ...state.inputValues,
+      [action.input]: action.value,
+    };
+
+    const updatedValidities = {
+      ...state.inputValidities,
+      [action.input]: action.isValid,
+    };
+
+    let formIsValid = true;
+    for (const key in updatedValidities) {
+      formIsValid = formIsValid && updatedValidities[key];
+    }
+
+    return {
+      ...state,
+      inputValues: updatedValues,
+      inputValidities: updatedValidities,
+      formIsValid,
+    };
+  }
+
+  if (action.type === SHOW_ERRORS) {
+    return {
+      ...state,
+      showErrors: true,
+    };
+  }
+
+  return state;
+};
+
 const EditProductScreen = (props) => {
   const selectedProduct = props.navigation.getParam("product") || {};
 
   const { id, ownerId, title, imageUrl, description, price } = selectedProduct;
 
-  const [productTitle, setProductTitle] = useState(!!id ? title : "");
-  const [productDescription, setProductDescription] = useState(
-    !!id ? description : ""
-  );
-  const [productImage, setProductImage] = useState(!!id ? imageUrl : "");
-  const [productPrice, setProductPrice] = useState(!!id ? price : "");
+  const [formState, dispatchFormState] = useReducer(formReducer, {
+    inputValues: {
+      productTitle: !!id ? title : "",
+      productDescription: !!id ? description : "",
+      productImage: !!id ? imageUrl : "",
+      productPrice: !!id ? price : "",
+    },
+    inputValidities: {
+      productTitle: !!id ? true : false,
+      productDescription: !!id ? true : false,
+      productImage: !!id ? true : false,
+      productPrice: !!id ? true : false,
+    },
+    formIsValid: !!id ? true : false,
+    showErrors: false,
+  });
+
+  // const [productTitle, setProductTitle] = useState(!!id ? title : "");
+  // const [titleIsValid, setTitleIsValid] = useState(false);
+
+  // const [productDescription, setProductDescription] = useState(
+  //   !!id ? description : ""
+  // );
+
+  // const [productImage, setProductImage] = useState(!!id ? imageUrl : "");
+
+  // const [productPrice, setProductPrice] = useState(!!id ? price : "");
 
   const dispatch = useDispatch();
 
   const addorEditProduct = !!id ? editProduct : addProduct;
 
   const submitHandler = useCallback(() => {
+    if (!formState.formIsValid) {
+      Alert.alert("Wrong Input.", "Please enter valid input(s)!", [
+        { text: "Okay!" },
+      ]);
+      dispatchFormState({ type: SHOW_ERRORS });
+      return;
+    }
+
     dispatch(
       addorEditProduct({
-        title: productTitle,
-        imageURL: productImage,
-        description: productDescription,
-        price: parseFloat(productPrice),
+        title: formState.inputValues.productTitle,
+        imageURL: formState.inputValues.productImage,
+        description: formState.inputValues.productDescription,
+        price: +formState.inputValues.productPrice,
         existingId: id,
       })
     );
     props.navigation.popToTop();
-  }, [
-    dispatch,
-    id,
-    productTitle,
-    productImage,
-    productDescription,
-    productPrice,
-  ]);
+  }, [dispatch, id, formState]);
 
   useEffect(() => {
     props.navigation.setParams({ submit: submitHandler });
   }, [submitHandler]);
+
+  const textChangeHandler = (inputIdentifier, text) => {
+    let isValid = false;
+
+    if (text.trim().length > 0) {
+      isValid = true;
+    }
+
+    dispatchFormState({
+      type: FORM_INPUT_UPDATE,
+      value: text,
+      isValid,
+      input: inputIdentifier,
+    });
+  };
 
   const disabledStyle = !!id ? { backgroundColor: "lightgrey" } : {};
 
@@ -83,10 +158,22 @@ const EditProductScreen = (props) => {
             <TextInput
               style={styles.textInput}
               placeholder="Product Title"
-              onChangeText={(text) => setProductTitle(text)}
-              defaultValue={productTitle}
+              onChangeText={(text) => {
+                textChangeHandler("productTitle", text);
+              }}
+              defaultValue={formState.inputValues.productTitle}
+              keyboardType="default"
+              autoCapitalize="sentences"
+              autoCorrect
+              returnKeyType="next"
             />
+            {formState.showErrors && !formState.inputValidities.productTitle ? (
+              <Text style={styles.error}>Please Enter a Valid Title!</Text>
+            ) : (
+              <Text></Text>
+            )}
           </View>
+
           <View style={styles.subContainer}>
             <Text style={styles.label}>Description: </Text>
             <TextInput
@@ -94,29 +181,55 @@ const EditProductScreen = (props) => {
               multiline
               numberOfLines={4}
               placeholder="Product Description"
-              onChangeText={(text) => setProductDescription(text)}
-              defaultValue={productDescription}
+              onChangeText={(text) => {
+                textChangeHandler("productDescription", text);
+              }}
+              defaultValue={formState.inputValues.productDescription}
             />
+            {formState.showErrors &&
+            !formState.inputValidities.productDescription ? (
+              <Text style={styles.error}>
+                Please Enter a Valid Description!
+              </Text>
+            ) : (
+              <Text></Text>
+            )}
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.label}>Image URL: </Text>
             <TextInput
               style={styles.textInput}
               placeholder="Product Image"
-              onChangeText={(text) => setProductImage(text)}
-              defaultValue={productImage}
+              onChangeText={(text) => {
+                textChangeHandler("productImage", text);
+              }}
+              defaultValue={formState.inputValues.productImage}
             />
+            {formState.showErrors && !formState.inputValidities.productImage ? (
+              <Text style={styles.error}>Please Enter a Valid Image URL!</Text>
+            ) : (
+              <Text></Text>
+            )}
           </View>
           <View style={styles.subContainer}>
             <Text style={styles.label}>Price: </Text>
             <TextInput
               editable={!selectedProduct.id}
-              keyboardType="number-pad"
+              keyboardType="decimal-pad"
               style={{ ...styles.textInput, ...disabledStyle }}
               placeholder="Product Price"
-              onChangeText={(text) => setProductPrice(text)}
-              defaultValue={productPrice ? productPrice.toString() : ""}
+              onChangeText={(text) => {
+                textChangeHandler("productPrice", text);
+              }}
+              defaultValue={
+                !!price ? formState.inputValues.productPrice.toString() : ""
+              }
             />
+            {formState.showErrors && !formState.inputValidities.productPrice ? (
+              <Text style={styles.error}>Please Enter a Valid Price!</Text>
+            ) : (
+              <Text></Text>
+            )}
           </View>
         </View>
       </View>
@@ -153,13 +266,6 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   container: {
-    // shadowColor: "black",
-    // shadowOpacity: 0.26,
-    // shadowOffset: { width: 0, height: 2 },
-    // shadowRadius: 8,
-    // elevation: 5,
-    // borderRadius: 10,
-    // backgroundColor: "white",
     width: "100%",
     padding: 20,
   },
@@ -168,14 +274,17 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   label: {
-    fontFamily: "open-sans",
+    fontFamily: "open-sans-bold",
     fontSize: 16,
   },
   textInput: {
+    fontSize: 16,
     borderBottomWidth: 1,
     padding: 5,
-    margin: 10,
-    fontSize: 16,
+    margin: 5,
+  },
+  error: {
+    color: "red",
   },
 });
 
