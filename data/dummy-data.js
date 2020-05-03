@@ -49,7 +49,15 @@ const PRODUCTS = [
     "https://cdn.pixabay.com/photo/2015/10/03/02/14/pen-969298_1280.jpg",
     "Can be used for role-playing (not the kind of role-playing you're thinking about...).",
     5.49
-  )
+  ),
+  new Product(
+    "p7",
+    "u1",
+    "Maria's Famous Spaghetti",
+    "https://www.kawalingpinoy.com/wp-content/uploads/2017/03/filipino-style-spaghetti-5.jpg",
+    "The best in the west spaghetti. So delicious, it is out of this world!",
+    39.99
+  ),
 ];
 
 export default PRODUCTS;
