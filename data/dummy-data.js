@@ -58,6 +58,22 @@ const PRODUCTS = [
     "The best in the west spaghetti. So delicious, it is out of this world!",
     39.99
   ),
+  new Product(
+    "p8",
+    "u1",
+    "Maria's Delicious Embutido",
+    "https://www.foxyfolksy.com/wp-content/uploads/2014/12/embutido-1.jpg",
+    "Very delicious Embutido. Secret recipe by Maria!!",
+    19.99
+  ),
+  new Product(
+    "p9",
+    "u1",
+    "Maria's Food for the Gods",
+    "https://cdn.filestackcontent.com/qxrLLddzRMeRZ01ZkWY0",
+    "Dessert that's out of this world! Only those who are worthy can have a taste.",
+    14.99
+  ),
 ];
 
 export default PRODUCTS;
