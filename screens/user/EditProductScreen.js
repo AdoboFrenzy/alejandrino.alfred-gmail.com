@@ -156,12 +156,15 @@ const EditProductScreen = (props) => {
 
         <View style={styles.container}>
           <Input
-            label="Label"
+            label="Title"
             placeholder="Product Title"
             onChangeText={(text) => {
               textChangeHandler("productTitle", text);
             }}
             defaultValue={formState.inputValues.productTitle}
+            autoCapitalize="sentences"
+            autoCorrect
+            returnKeyType="next"
             showErrors={formState.showErrors}
             validInput={formState.inputValidities.productTitle}
           />
@@ -193,6 +196,9 @@ const EditProductScreen = (props) => {
               textChangeHandler("productDescription", text);
             }}
             defaultValue={formState.inputValues.productDescription}
+            autoCapitalize="sentences"
+            autoCorrect
+            returnKeyType="next"
             showErrors={formState.showErrors}
             validInput={formState.inputValidities.productDescription}
           />
@@ -225,6 +231,7 @@ const EditProductScreen = (props) => {
               textChangeHandler("productImage", text);
             }}
             defaultValue={formState.inputValues.productImage}
+            returnKeyType="next"
             showErrors={formState.showErrors}
             validInput={formState.inputValidities.productImage}
           />
@@ -252,6 +259,8 @@ const EditProductScreen = (props) => {
               textChangeHandler("productPrice", text);
             }}
             defaultValue={formState.inputValues.productPrice.toString()}
+            keyboardType="decimal-pad"
+            returnKeyType="next"
             showErrors={formState.showErrors}
             validInput={formState.inputValidities.productPrice}
           />

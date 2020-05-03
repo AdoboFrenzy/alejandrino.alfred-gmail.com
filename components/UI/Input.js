@@ -6,6 +6,7 @@ const Input = (props) => {
     <View style={{ ...styles.subContainer, ...props.style }}>
       <Text style={styles.label}>{props.label}: </Text>
       <TextInput
+        {...props}
         style={styles.textInput}
         placeholder={props.placeholder}
         onChangeText={props.onChangeText}
