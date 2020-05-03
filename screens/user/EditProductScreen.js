@@ -198,6 +198,8 @@ const EditProductScreen = (props) => {
             defaultValue={formState.inputValues.productDescription}
             autoCapitalize="sentences"
             autoCorrect
+            multiline
+            numberOfLines={3}
             returnKeyType="next"
             showErrors={formState.showErrors}
             validInput={formState.inputValidities.productDescription}

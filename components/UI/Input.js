@@ -13,9 +13,15 @@ const Input = (props) => {
         defaultValue={props.defaultValue}
       />
       {props.showErrors && !props.validInput ? (
-        <Text style={styles.error}>Please Enter a Valid {props.label}!</Text>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>
+            Please Enter a Valid {props.label}!
+          </Text>
+        </View>
       ) : (
-        <Text></Text>
+        <View style={styles.errorContainer}>
+          <Text> </Text>
+        </View>
       )}
     </View>
   );
@@ -36,7 +42,12 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
   },
-  error: {
+  errorContainer: {
+    // marginBottom: 2,
+  },
+  errorText: {
+    fontFamily: "open-sans",
+    fontSize: 14,
     color: "red",
   },
 });
