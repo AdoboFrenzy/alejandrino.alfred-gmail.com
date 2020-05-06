@@ -7,6 +7,8 @@ import {
   ScrollView,
   Button,
   Alert,
+  KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -144,151 +146,157 @@ const EditProductScreen = (props) => {
   const disabledStyle = !!id ? { backgroundColor: "lightgrey" } : {};
 
   return (
-    <ScrollView>
-      <View style={styles.form}>
-        <View>
-          <Text style={styles.title}>
-            <Text style={{ fontFamily: "open-sans-bold" }}>
-              {selectedProduct.title}
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior="padding"
+      keyboardVerticalOffset={100}
+    >
+      <ScrollView>
+        <View style={styles.form}>
+          <View>
+            <Text style={styles.title}>
+              <Text style={{ fontFamily: "open-sans-bold" }}>
+                {selectedProduct.title}
+              </Text>
             </Text>
-          </Text>
-        </View>
+          </View>
 
-        <View style={styles.container}>
-          <Input
-            label="Title"
-            placeholder="Product Title"
-            onChangeText={(text) => {
-              textChangeHandler("productTitle", text);
-            }}
-            defaultValue={formState.inputValues.productTitle}
-            autoCapitalize="sentences"
-            autoCorrect
-            returnKeyType="next"
-            showErrors={formState.showErrors}
-            validInput={formState.inputValidities.productTitle}
-          />
-          {/* <View style={styles.subContainer}>
-            <Text style={styles.label}>Title: </Text>
-            <TextInput
-              style={styles.textInput}
+          <View style={styles.container}>
+            <Input
+              label="Title"
               placeholder="Product Title"
               onChangeText={(text) => {
                 textChangeHandler("productTitle", text);
               }}
               defaultValue={formState.inputValues.productTitle}
-              keyboardType="default"
               autoCapitalize="sentences"
               autoCorrect
               returnKeyType="next"
+              showErrors={formState.showErrors}
+              validInput={formState.inputValidities.productTitle}
+            />
+            {/* <View style={styles.subContainer}>
+            <Text style={styles.label}>Title: </Text>
+            <TextInput
+            style={styles.textInput}
+            placeholder="Product Title"
+            onChangeText={(text) => {
+              textChangeHandler("productTitle", text);
+            }}
+            defaultValue={formState.inputValues.productTitle}
+            keyboardType="default"
+            autoCapitalize="sentences"
+            autoCorrect
+            returnKeyType="next"
             />
             {formState.showErrors && !formState.inputValidities.productTitle ? (
               <Text style={styles.error}>Please Enter a Valid Title!</Text>
-            ) : (
-              <Text></Text>
-            )}
-          </View> */}
+              ) : (
+                <Text></Text>
+                )}
+              </View> */}
 
-          <Input
-            label="Description"
-            placeholder="Product Description"
-            onChangeText={(text) => {
-              textChangeHandler("productDescription", text);
-            }}
-            defaultValue={formState.inputValues.productDescription}
-            autoCapitalize="sentences"
-            autoCorrect
-            multiline
-            numberOfLines={3}
-            returnKeyType="next"
-            showErrors={formState.showErrors}
-            validInput={formState.inputValidities.productDescription}
-          />
-          {/* <View style={styles.subContainer}>
-            <Text style={styles.label}>Description: </Text>
-            <TextInput
-              style={styles.textInput}
-              multiline
-              numberOfLines={4}
+            <Input
+              label="Description"
               placeholder="Product Description"
               onChangeText={(text) => {
                 textChangeHandler("productDescription", text);
               }}
               defaultValue={formState.inputValues.productDescription}
+              autoCapitalize="sentences"
+              autoCorrect
+              multiline
+              numberOfLines={3}
+              returnKeyType="next"
+              showErrors={formState.showErrors}
+              validInput={formState.inputValidities.productDescription}
+            />
+            {/* <View style={styles.subContainer}>
+            <Text style={styles.label}>Description: </Text>
+            <TextInput
+            style={styles.textInput}
+            multiline
+            numberOfLines={4}
+            placeholder="Product Description"
+            onChangeText={(text) => {
+              textChangeHandler("productDescription", text);
+            }}
+            defaultValue={formState.inputValues.productDescription}
             />
             {formState.showErrors &&
-            !formState.inputValidities.productDescription ? (
-              <Text style={styles.error}>
+              !formState.inputValidities.productDescription ? (
+                <Text style={styles.error}>
                 Please Enter a Valid Description!
-              </Text>
-            ) : (
-              <Text></Text>
-            )} */}
-          {/* </View> */}
+                </Text>
+                ) : (
+                  <Text></Text>
+                )} */}
+            {/* </View> */}
 
-          <Input
-            label="Image URL"
-            placeholder="Product Image URL"
-            onChangeText={(text) => {
-              textChangeHandler("productImage", text);
-            }}
-            defaultValue={formState.inputValues.productImage}
-            returnKeyType="next"
-            showErrors={formState.showErrors}
-            validInput={formState.inputValidities.productImage}
-          />
-          {/* <View style={styles.subContainer}>
-            <Text style={styles.label}>Image URL: </Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Product Image"
+            <Input
+              label="Image URL"
+              placeholder="Product Image URL"
               onChangeText={(text) => {
                 textChangeHandler("productImage", text);
               }}
               defaultValue={formState.inputValues.productImage}
+              returnKeyType="next"
+              showErrors={formState.showErrors}
+              validInput={formState.inputValidities.productImage}
+            />
+            {/* <View style={styles.subContainer}>
+            <Text style={styles.label}>Image URL: </Text>
+            <TextInput
+            style={styles.textInput}
+            placeholder="Product Image"
+            onChangeText={(text) => {
+              textChangeHandler("productImage", text);
+            }}
+            defaultValue={formState.inputValues.productImage}
             />
             {formState.showErrors && !formState.inputValidities.productImage ? (
               <Text style={styles.error}>Please Enter a Valid Image URL!</Text>
-            ) : (
-              <Text></Text>
-            )}
-          </View> */}
+              ) : (
+                <Text></Text>
+                )}
+              </View> */}
 
-          <Input
-            label="Price"
-            placeholder="Product Price"
-            onChangeText={(text) => {
-              textChangeHandler("productPrice", text);
-            }}
-            defaultValue={formState.inputValues.productPrice.toString()}
-            keyboardType="decimal-pad"
-            returnKeyType="next"
-            showErrors={formState.showErrors}
-            validInput={formState.inputValidities.productPrice}
-          />
-          {/* <View style={styles.subContainer}>
-            <Text style={styles.label}>Price: </Text>
-            <TextInput
-              editable={!selectedProduct.id}
-              keyboardType="decimal-pad"
-              style={{ ...styles.textInput, ...disabledStyle }}
+            <Input
+              label="Price"
               placeholder="Product Price"
               onChangeText={(text) => {
                 textChangeHandler("productPrice", text);
               }}
-              defaultValue={
-                !!price ? formState.inputValues.productPrice.toString() : ""
-              }
+              defaultValue={formState.inputValues.productPrice.toString()}
+              keyboardType="decimal-pad"
+              returnKeyType="next"
+              showErrors={formState.showErrors}
+              validInput={formState.inputValidities.productPrice}
+            />
+            {/* <View style={styles.subContainer}>
+            <Text style={styles.label}>Price: </Text>
+            <TextInput
+            editable={!selectedProduct.id}
+            keyboardType="decimal-pad"
+            style={{ ...styles.textInput, ...disabledStyle }}
+            placeholder="Product Price"
+            onChangeText={(text) => {
+              textChangeHandler("productPrice", text);
+            }}
+            defaultValue={
+              !!price ? formState.inputValues.productPrice.toString() : ""
+            }
             />
             {formState.showErrors && !formState.inputValidities.productPrice ? (
               <Text style={styles.error}>Please Enter a Valid Price!</Text>
-            ) : (
-              <Text></Text>
-            )}
-          </View> */}
+              ) : (
+                <Text></Text>
+                )}
+              </View> */}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
