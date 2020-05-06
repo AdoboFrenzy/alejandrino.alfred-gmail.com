@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { createStore, combineReducers, compose } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
 
 import { StyleSheet, Text, View } from "react-native";
 import { AppLoading } from "expo";
@@ -23,7 +24,7 @@ const rootReducer = combineReducers({
   orders: ordersReducer,
 });
 
-const store = createStore(rootReducer); //, composeWithDevTools()
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk)); //, composeWithDevTools()
 
 const fetchFonts = () => {
   return Font.loadAsync({
