@@ -27,7 +27,7 @@ export const fetchProducts = () => async (dispatch) => {
 
   console.log(loadedProducts);
 
-  dispatch({ type: SET_PRODUCTS, availableProducts: loadedProducts });
+  dispatch({ type: SET_PRODUCTS, products: loadedProducts });
 };
 
 export const addProduct = (newProductInfo) => async (dispatch) => {

@@ -5,21 +5,21 @@ import {
   SET_PRODUCTS,
 } from "../actions/products";
 
-import PRODUCTS from "../../data/dummy-data";
+// import PRODUCTS from "../../data/dummy-data";
 
 import Product from "../../models/product";
 
 const initialState = {
-  availableProducts: [], //PRODUCTS,
-  userProducts: [], //PRODUCTS.filter((product) => product.ownerId == "u1"),
+  //PRODUCTS,
+  //PRODUCTS.filter((product) => product.ownerId == "u1"),
 };
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_PRODUCTS:
       return {
-        availableProducts: action.availableProducts,
-        userProducts: action.availableProducts.filter(
+        availableProducts: action.products,
+        userProducts: action.products.filter(
           (product) => product.ownerId == "u1"
         ),
       };
