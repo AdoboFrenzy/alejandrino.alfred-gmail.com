@@ -10,6 +10,8 @@ import {
 import Product from "../../models/product";
 
 const initialState = {
+  availableProducts: [],
+  userProducts: [],
   //PRODUCTS,
   //PRODUCTS.filter((product) => product.ownerId == "u1"),
 };

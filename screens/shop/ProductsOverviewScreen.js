@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Platform,
   Button,
+  ActivityIndicator,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -21,10 +22,17 @@ import Headerbutton from "../../components/UI/HeaderButton";
 import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const products = useSelector((state) => state.products.availableProducts);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    const loadProducts = async () => {
+      setIsLoading(true);
+      await dispatch(fetchProducts());
+      setIsLoading(false);
+    };
+
+    loadProducts();
   }, [dispatch]);
 
   const dispatch = useDispatch();
@@ -63,6 +71,23 @@ const ProductsOverviewScreen = (props) => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No Products Listed.</Text>
+        <Text>Add some in your Admin page!</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
       data={products}
@@ -100,6 +125,12 @@ ProductsOverviewScreen.navigationOptions = (navData) => {
   };
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default ProductsOverviewScreen;
