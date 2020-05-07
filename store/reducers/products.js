@@ -17,17 +17,8 @@ const productsReducer = (state = initialState, action) => {
       description = action.newProductInfo.description;
       price = action.newProductInfo.price;
 
-      const lastProductIdNumber =
-        parseInt(
-          state.availableProducts[state.availableProducts.length - 1].id.slice(
-            1
-          )
-        ) + 1;
-
-      const newProductId = "p" + lastProductIdNumber;
-
       const result = new Product(
-        newProductId,
+        action.newProductInfo.id,
         "u1",
         ...Object.values(action.newProductInfo)
       );
