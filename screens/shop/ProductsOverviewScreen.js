@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import { addToCart } from "../../store/actions/cart";
+import { fetchProducts } from "../../store/actions/products";
 
 import ProductItem from "../../components/shop/ProductItem";
 
@@ -21,6 +22,10 @@ import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = (props) => {
   const products = useSelector((state) => state.products.availableProducts);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   const dispatch = useDispatch();
 

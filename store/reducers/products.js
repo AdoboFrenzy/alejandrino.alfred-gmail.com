@@ -1,16 +1,29 @@
-import { ADD_PRODUCT, EDIT_PRODUCT, DELETE_PRODUCT } from "../actions/products";
+import {
+  ADD_PRODUCT,
+  EDIT_PRODUCT,
+  DELETE_PRODUCT,
+  SET_PRODUCTS,
+} from "../actions/products";
 
 import PRODUCTS from "../../data/dummy-data";
 
 import Product from "../../models/product";
 
 const initialState = {
-  availableProducts: PRODUCTS,
-  userProducts: PRODUCTS.filter((product) => product.ownerId == "u1"),
+  availableProducts: [], //PRODUCTS,
+  userProducts: [], //PRODUCTS.filter((product) => product.ownerId == "u1"),
 };
 
 const productsReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_PRODUCTS:
+      return {
+        availableProducts: action.availableProducts,
+        userProducts: action.availableProducts.filter(
+          (product) => product.ownerId == "u1"
+        ),
+      };
+
     case ADD_PRODUCT:
       title = action.newProductInfo.title;
       imageURL = action.newProductInfo.imageURL;
