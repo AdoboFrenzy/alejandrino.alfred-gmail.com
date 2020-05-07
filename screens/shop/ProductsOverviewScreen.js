@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -23,17 +23,23 @@ import Colors from "../../constants/Colors";
 
 const ProductsOverviewScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
   const products = useSelector((state) => state.products.availableProducts);
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      setIsLoading(true);
+  const loadProducts = useCallback(async () => {
+    setError(null);
+    setIsLoading(true);
+    try {
       await dispatch(fetchProducts());
-      setIsLoading(false);
-    };
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsLoading(false);
+  }, [dispatch, setIsLoading, setError]);
 
+  useEffect(() => {
     loadProducts();
-  }, [dispatch]);
+  }, [dispatch, loadProducts]);
 
   const dispatch = useDispatch();
 
@@ -75,6 +81,20 @@ const ProductsOverviewScreen = (props) => {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>An Error has Occurred!</Text>
+        <Text>{error}</Text>
+        <Button
+          title="Try Again!"
+          onPress={loadProducts}
+          color={Colors.primary}
+        />
       </View>
     );
   }

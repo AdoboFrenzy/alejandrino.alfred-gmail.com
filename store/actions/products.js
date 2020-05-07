@@ -13,7 +13,7 @@ export const fetchProducts = () => async (dispatch) => {
     );
 
     if (!response.ok) {
-      throw new Error("Something is not working!");
+      throw new Error("Error loading from Database!");
     }
 
     const resData = await response.json();
