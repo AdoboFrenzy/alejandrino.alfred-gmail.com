@@ -53,8 +53,6 @@ export const addProduct = (newProductInfo) => async (dispatch) => {
 
   const resData = await response.json();
 
-  console.log(resData);
-
   dispatch({
     type: ADD_PRODUCT,
     newProductInfo: {
@@ -64,12 +62,38 @@ export const addProduct = (newProductInfo) => async (dispatch) => {
   });
 };
 
-export const editProduct = (editProductInfo) => ({
-  type: EDIT_PRODUCT,
-  editProductInfo,
-});
+export const editProduct = (editProductInfo) => async (dispatch) => {
+  // Any async code here!
 
-export const deleteProduct = (productId) => ({
-  type: DELETE_PRODUCT,
-  productId,
-});
+  const { existingId, title, imageURL, description } = editProductInfo;
+
+  await fetch(
+    "https://shopappacademind.firebaseio.com/products/" + existingId + ".json",
+    {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title,
+        imageURL,
+        description,
+      }),
+    }
+  );
+
+  dispatch({
+    type: EDIT_PRODUCT,
+    editProductInfo,
+  });
+};
+
+export const deleteProduct = (productId) => async (dispatch) => {
+  await fetch(
+    "https://shopappacademind.firebaseio.com/products/" + productId + ".json",
+    { method: "DELETE" }
+  );
+
+  dispatch({
+    type: DELETE_PRODUCT,
+    productId,
+  });
+};
