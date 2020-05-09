@@ -1,5 +1,11 @@
-import React, { useEffect, useCallback } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
@@ -8,11 +14,17 @@ import { fetchOrders } from "../../store/actions/orders";
 
 import OrderItem from "../../components/shop/OrderItem";
 
+import Colors from "../../constants/Colors";
+
 const OrdersScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const dispatch = useDispatch();
 
   const loadOrders = useCallback(async () => {
+    setIsLoading(true);
     await dispatch(fetchOrders());
+    setIsLoading(false);
   }, [dispatch]);
 
   // useEffect(() => {
@@ -30,6 +42,14 @@ const OrdersScreen = (props) => {
   }, [dispatch, loadOrders]);
 
   const orders = useSelector((state) => state.orders.orders);
+
+  if (isLoading) {
+    return (
+      <View style={styles.screen}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   if (orders.length < 1) {
     return (
