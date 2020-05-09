@@ -97,7 +97,7 @@ export const editProduct = (editProductInfo) => async (dispatch) => {
 export const deleteProduct = (productId) => async (dispatch) => {
   try {
     const response = await fetch(
-      "https://shopappacademind.firebaseio.com/products/" + productId + ".jon",
+      "https://shopappacademind.firebaseio.com/products/" + productId + ".json",
       { method: "DELETE" }
     );
 

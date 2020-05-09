@@ -1,5 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, StyleSheet, Button, FlatList, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  FlatList,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { addProduct, deleteProduct } from "../../store/actions/products";
 
@@ -11,16 +19,10 @@ import ProductItem from "../../components/shop/ProductItem";
 import Colors from "../../constants/Colors";
 
 const UserProductsScreen = (props) => {
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
 
   const userProducts = useSelector((state) => state.products.userProducts);
-
-  // useEffect(() => {
-  //   if (error) {
-  //     Alert.alert("An Error Occurred!", error, [{ text: "OK" }]);
-  //   }
-  // }, [error]);
 
   const dispatch = useDispatch();
 
@@ -35,28 +37,24 @@ const UserProductsScreen = (props) => {
       });
     };
 
-    const deleteHandler =
-      (() => {
-        try {
-          Alert.alert(
-            "Are you sure?",
-            "Do you really want to delete this item?",
-            [
-              { text: "No", style: "default" },
-              {
-                text: "Yes",
-                style: "destructive",
-                onPress: () => {
-                  dispatch(deleteProduct(itemData.item.id));
-                },
-              },
-            ]
-          );
-        } catch (err) {
-          // setError(err.message);
-        }
-      },
-      [dispatch, itemData.item.id]);
+    const deleteHandler = () => {
+      Alert.alert("Are you sure?", "Do you really want to delete this item?", [
+        { text: "No", style: "default" },
+        {
+          text: "Yes",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              setIsLoading(true);
+              await dispatch(deleteProduct(itemData.item.id));
+              setIsLoading(false);
+            } catch (err) {
+              setError(err.message);
+            }
+          },
+        },
+      ]);
+    };
 
     return (
       <ProductItem
@@ -88,6 +86,29 @@ const UserProductsScreen = (props) => {
       </ProductItem>
     );
   };
+
+  const clearError = () => {
+    setError(null);
+    setIsLoading(false);
+  };
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>An Error has Occurred!</Text>
+        <Text>{error}</Text>
+        <Button title="Go Back!" onPress={clearError} color={Colors.primary} />
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -133,6 +154,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
