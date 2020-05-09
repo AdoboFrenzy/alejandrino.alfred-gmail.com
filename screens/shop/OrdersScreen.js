@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../../components/UI/HeaderButton";
+
+import { fetchOrders } from "../../store/actions/orders";
 
 import OrderItem from "../../components/shop/OrderItem";
 
 const OrdersScreen = (props) => {
+  const dispatch = useDispatch();
+
+  const loadOrders = useCallback(async () => {
+    await dispatch(fetchOrders());
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   const willFocusSub = props.navigation.addListener("willFocus", () => {
+  //     loadOrders();
+  //   });
+
+  //   return () => {
+  //     willFocusSub.remove();
+  //   };
+  // }, [dispatch, loadOrders]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [dispatch, loadOrders]);
+
   const orders = useSelector((state) => state.orders.orders);
 
   if (orders.length < 1) {
