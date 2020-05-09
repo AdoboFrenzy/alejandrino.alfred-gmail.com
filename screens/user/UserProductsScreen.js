@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { View, Text, StyleSheet, Button, FlatList, Alert } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { addProduct, deleteProduct } from "../../store/actions/products";
@@ -11,7 +11,16 @@ import ProductItem from "../../components/shop/ProductItem";
 import Colors from "../../constants/Colors";
 
 const UserProductsScreen = (props) => {
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState();
+
   const userProducts = useSelector((state) => state.products.userProducts);
+
+  // useEffect(() => {
+  //   if (error) {
+  //     Alert.alert("An Error Occurred!", error, [{ text: "OK" }]);
+  //   }
+  // }, [error]);
 
   const dispatch = useDispatch();
 
@@ -26,18 +35,28 @@ const UserProductsScreen = (props) => {
       });
     };
 
-    const deleteHandler = () => {
-      Alert.alert("Are you sure?", "Do you really want to delete this item?", [
-        { text: "No", style: "default" },
-        {
-          text: "Yes",
-          style: "destructive",
-          onPress: () => {
-            dispatch(deleteProduct(itemData.item.id));
-          },
-        },
-      ]);
-    };
+    const deleteHandler =
+      (() => {
+        try {
+          Alert.alert(
+            "Are you sure?",
+            "Do you really want to delete this item?",
+            [
+              { text: "No", style: "default" },
+              {
+                text: "Yes",
+                style: "destructive",
+                onPress: () => {
+                  dispatch(deleteProduct(itemData.item.id));
+                },
+              },
+            ]
+          );
+        } catch (err) {
+          // setError(err.message);
+        }
+      },
+      [dispatch, itemData.item.id]);
 
     return (
       <ProductItem

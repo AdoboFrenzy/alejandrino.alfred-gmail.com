@@ -18,8 +18,6 @@ export const fetchProducts = () => async (dispatch) => {
 
     const resData = await response.json();
 
-    console.log(resData);
-
     const loadedProducts = [];
 
     for (const key in resData) {
@@ -67,33 +65,51 @@ export const editProduct = (editProductInfo) => async (dispatch) => {
 
   const { existingId, title, imageURL, description } = editProductInfo;
 
-  await fetch(
-    "https://shopappacademind.firebaseio.com/products/" + existingId + ".json",
-    {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        imageURL,
-        description,
-      }),
-    }
-  );
+  try {
+    const response = await fetch(
+      "https://shopappacademind.firebaseio.com/products/" +
+        existingId +
+        ".json",
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          imageURL,
+          description,
+        }),
+      }
+    );
 
-  dispatch({
-    type: EDIT_PRODUCT,
-    editProductInfo,
-  });
+    if (!response.ok) {
+      throw new Error("Database Error!");
+    }
+
+    dispatch({
+      type: EDIT_PRODUCT,
+      editProductInfo,
+    });
+  } catch (err) {
+    throw err;
+  }
 };
 
 export const deleteProduct = (productId) => async (dispatch) => {
-  await fetch(
-    "https://shopappacademind.firebaseio.com/products/" + productId + ".json",
-    { method: "DELETE" }
-  );
+  try {
+    const response = await fetch(
+      "https://shopappacademind.firebaseio.com/products/" + productId + ".jon",
+      { method: "DELETE" }
+    );
 
-  dispatch({
-    type: DELETE_PRODUCT,
-    productId,
-  });
+    if (!response.ok) {
+      throw new Error("Database Error!");
+    }
+
+    dispatch({
+      type: DELETE_PRODUCT,
+      productId,
+    });
+  } catch (err) {
+    throw err;
+  }
 };

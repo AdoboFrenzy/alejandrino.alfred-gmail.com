@@ -9,6 +9,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import { useDispatch } from "react-redux";
 
@@ -67,6 +68,9 @@ const formReducer = (state, action) => {
 };
 
 const EditProductScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState();
+
   const selectedProduct = props.navigation.getParam("product") || {};
 
   const { id, ownerId, title, imageUrl, description, price } = selectedProduct;
@@ -99,11 +103,17 @@ const EditProductScreen = (props) => {
 
   // const [productPrice, setProductPrice] = useState(!!id ? price : "");
 
+  useEffect(() => {
+    if (error) {
+      Alert.alert("An Error Occurred!", error, [{ text: "OK" }]);
+    }
+  }, [error]);
+
   const dispatch = useDispatch();
 
   const addorEditProduct = !!id ? editProduct : addProduct;
 
-  const submitHandler = useCallback(() => {
+  const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Wrong Input.", "Please enter valid input(s)!", [
         { text: "Okay!" },
@@ -112,16 +122,26 @@ const EditProductScreen = (props) => {
       return;
     }
 
-    dispatch(
-      addorEditProduct({
-        title: formState.inputValues.productTitle,
-        imageURL: formState.inputValues.productImage,
-        description: formState.inputValues.productDescription,
-        price: +formState.inputValues.productPrice,
-        existingId: id,
-      })
-    );
-    props.navigation.popToTop();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      await dispatch(
+        addorEditProduct({
+          title: formState.inputValues.productTitle,
+          imageURL: formState.inputValues.productImage,
+          description: formState.inputValues.productDescription,
+          price: +formState.inputValues.productPrice,
+          existingId: id,
+        })
+      );
+      props.navigation.popToTop();
+    } catch (err) {
+      setError(err.message);
+      // throw err;
+    }
+
+    setIsLoading(false);
   }, [dispatch, id, formState]);
 
   useEffect(() => {
@@ -143,7 +163,13 @@ const EditProductScreen = (props) => {
     });
   };
 
-  const disabledStyle = !!id ? { backgroundColor: "lightgrey" } : {};
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -264,6 +290,7 @@ const EditProductScreen = (props) => {
             <Input
               label="Price"
               placeholder="Product Price"
+              editable={!selectedProduct.id}
               onChangeText={(text) => {
                 textChangeHandler("productPrice", text);
               }}
@@ -316,6 +343,11 @@ EditProductScreen.navigationOptions = (navData) => {
 };
 
 const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   form: {
     margin: 20,
     flex: 1,

@@ -2,12 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 
 const Input = (props) => {
+  const disabledStyle =
+    props.editable === false ? { backgroundColor: "lightgrey" } : {};
+
   return (
     <View style={{ ...styles.subContainer, ...props.style }}>
       <Text style={styles.label}>{props.label}: </Text>
       <TextInput
         {...props}
-        style={styles.textInput}
+        style={{ ...styles.textInput, ...disabledStyle }}
         placeholder={props.placeholder}
         onChangeText={props.onChangeText}
         defaultValue={props.defaultValue}
