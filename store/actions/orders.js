@@ -5,7 +5,7 @@ import Order from "../../models/order";
 
 export const fetchOrders = () => async (dispatch) => {
   const response = await fetch(
-    "https://shopappacademind.firebaseio.com/orders.json"
+    "https://shopappacademind.firebaseio.com/orders/u1.json"
   );
 
   const resData = await response.json();
@@ -30,7 +30,7 @@ export const addToOrder = (cartItems, totalAmount) => async (dispatch) => {
   const date = new Date();
 
   const response = await fetch(
-    "https://shopappacademind.firebaseio.com/orders.json",
+    "https://shopappacademind.firebaseio.com/orders/u1.json",
     {
       method: "POST",
       headers: {

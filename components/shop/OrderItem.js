@@ -67,7 +67,8 @@ const OrderItem = (props) => {
 
 const styles = StyleSheet.create({
   orderItem: {
-    margin: 20,
+    marginTop: 20,
+    marginHorizontal: 20,
     padding: 10,
     // alignItems: "center",
   },

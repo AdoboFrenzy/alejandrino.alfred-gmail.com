@@ -1,5 +1,12 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList, Button } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Button,
+  ActivityIndicator,
+} from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import Colors from "../../constants/Colors";
@@ -9,8 +16,11 @@ import { addToCart, removeCartItem } from "../../store/actions/cart";
 import { addToOrder } from "../../store/actions/orders";
 
 import CartItem from "../../components/shop/CartItem";
+import { set } from "react-native-reanimated";
 
 const CartScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const cartTotalSum = useSelector((state) => state.cart.totalSum);
 
   const cartItems = useSelector((state) => {
@@ -67,20 +77,29 @@ const CartScreen = (props) => {
             ${Math.round(cartTotalSum.toFixed(2) * 100) / 100}
           </Text>
         </Text>
-        <Button
-          title="Order Now"
-          color={Colors.accent}
-          disabled={cartItems.length === 0}
-          onPress={() => {
-            dispatch(addToOrder(cartItems, cartTotalSum));
-            setTimeout(() => {
-              props.navigation.popToTop();
-            }, 300);
-            // setTimeout(() => {
-            //   props.navigation.navigate("Orders");
-            // }, 400);
-          }}
-        />
+        {isLoading ? (
+          <View style={styles.activity}>
+            <ActivityIndicator size="small" color={Colors.primary} />
+          </View>
+        ) : (
+          <Button
+            title="Order Now"
+            color={Colors.accent}
+            disabled={cartItems.length === 0}
+            onPress={async () => {
+              setIsLoading(true);
+              await dispatch(addToOrder(cartItems, cartTotalSum));
+              setIsLoading(false);
+
+              setTimeout(() => {
+                props.navigation.popToTop();
+              }, 300);
+              // setTimeout(() => {
+              //   props.navigation.navigate("Orders");
+              // }, 400);
+            }}
+          />
+        )}
       </Card>
 
       <FlatList
@@ -125,6 +144,11 @@ const styles = StyleSheet.create({
     padding: 10,
     shadowColor: "black",
     backgroundColor: "white",
+  },
+  activity: {
+    width: "30%",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
