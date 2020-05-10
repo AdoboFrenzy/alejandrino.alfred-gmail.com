@@ -95,9 +95,16 @@ const ShopDrawerNavigator = createDrawerNavigator(
   }
 );
 
+const AuthNavigator = createStackNavigator(
+  {
+    AuthScreen,
+  },
+  { defaultNavigationOptions: defaultNavOptions }
+);
+
 const ShopNavigator = createSwitchNavigator({
-  Auth: AuthScreen,
-  Drawer: ShopDrawerNavigator,
+  Auth: AuthNavigator,
+  Shop: ShopDrawerNavigator,
 });
 
 export default createAppContainer(ShopNavigator);
