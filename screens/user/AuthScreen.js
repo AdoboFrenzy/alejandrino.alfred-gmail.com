@@ -72,7 +72,7 @@ AuthScreen.navigationOptions = (navOptions) => {
   const isSignUp = navOptions.navigation.getParam("isSignUp");
 
   return {
-    headerTitle: isSignUp ? "Sign Up" : "Login",
+    headerTitle: "Authentication",
   };
 };
 
