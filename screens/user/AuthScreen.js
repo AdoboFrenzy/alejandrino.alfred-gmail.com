@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -6,6 +6,9 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Button,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  Platform,
 } from "react-native";
 
 import Input from "../../components/UI/Input";
@@ -13,16 +16,20 @@ import Input from "../../components/UI/Input";
 import Color from "../../constants/Colors";
 
 const AuthScreen = (props) => {
+  const [isSignUp, setIsSignUp] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  console.log(userName);
-  console.log(password);
+  useEffect(() => {
+    props.navigation.setParams({ isSignUp });
+  }, [isSignUp]);
 
   return (
     <ScrollView>
       <View style={styles.loginHeader}>
-        <Text style={styles.headerText}>Please login to proceed!</Text>
+        <Text style={styles.headerText}>
+          Please {isSignUp ? "Sign Up" : "Login"} to proceed!
+        </Text>
       </View>
       <View style={styles.container}>
         <Input
@@ -39,7 +46,7 @@ const AuthScreen = (props) => {
         <Input
           label="Password"
           placeholder="Password"
-          caretHidden={true}
+          secureTextEntry={true}
           onChangeText={(text) => {
             setPassword(text);
           }}
@@ -48,14 +55,25 @@ const AuthScreen = (props) => {
           autoCorrect
           returnKeyType="next"
         />
+        <Button title="Submit" onPress={() => {}} color={Color.primary} />
+        <Button
+          title={`Switch to ${isSignUp ? "Sign In" : "Sign Up"}`}
+          onPress={() => {
+            setIsSignUp((prevState) => !prevState);
+          }}
+          color={Color.primary}
+        />
       </View>
-      <Button title="Submit" onPress={() => {}} color={Color.accent} />
     </ScrollView>
   );
 };
 
-AuthScreen.navigationOptions = {
-  headerTitle: "Login",
+AuthScreen.navigationOptions = (navOptions) => {
+  const isSignUp = navOptions.navigation.getParam("isSignUp");
+
+  return {
+    headerTitle: isSignUp ? "Sign Up" : "Login",
+  };
 };
 
 const styles = StyleSheet.create({
