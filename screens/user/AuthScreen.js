@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
   Platform,
+  ActivityIndicator,
+  Alert,
 } from "react-native";
 
 import { useDispatch } from "react-redux";
@@ -20,18 +22,28 @@ import { LinearGradient } from "expo-linear-gradient";
 import Card from "../../components/UI/Card";
 import Input from "../../components/UI/Input";
 
-import Color from "../../constants/Colors";
+import Colors from "../../constants/Colors";
 
 const AuthScreen = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [isSignUp, setIsSignUp] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  // useEffect(() => {
-  //   props.navigation.setParams({ isSignUp });
-  // }, [isSignUp]);
+  useEffect(() => {
+    if (error) Alert.alert("An Error Occurred", error, [{ text: "OK" }]);
+  }, [error]);
 
   const dispatch = useDispatch();
+
+  if (isLoading) {
+    return (
+      <View style={styles.screen}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.scrollview}>
@@ -68,21 +80,29 @@ const AuthScreen = (props) => {
             />
             <Button
               title={isSignUp ? "Sign Up" : "Login"}
-              onPress={() => {
-                if (isSignUp) {
-                  dispatch(signup(userName, password));
-                } else {
-                  dispatch(login(userName, password));
+              onPress={async () => {
+                setError(null);
+                const action = isSignUp ? signup : login;
+                setIsLoading(true);
+                try {
+                  await dispatch(action(userName, password));
+
+                  setUserName("");
+                  setPassword("");
+                  props.navigation.navigate("Shop");
+                } catch (err) {
+                  setError(err.message);
+                  setIsLoading(false);
                 }
               }}
-              color={Color.primary}
+              color={Colors.primary}
             />
             <Button
               title={`Switch to ${isSignUp ? "Login" : "Sign Up"}`}
               onPress={() => {
                 setIsSignUp((prevState) => !prevState);
               }}
-              color={Color.accent}
+              color={Colors.accent}
             />
           </Card>
         </LinearGradient>
@@ -114,7 +134,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontFamily: "open-sans",
-    color: Color.primary,
+    color: Colors.primary,
     fontSize: 18,
     // textShadowOffset: { width: 2, height: 2 },
     // textShadowRadius: 3,
