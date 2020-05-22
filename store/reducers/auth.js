@@ -6,9 +6,16 @@ const initialState = {
 };
 
 const authReducer = (state = initialState, action) => {
+  console.log(action.type);
+
   switch (action.type) {
     case SIGNUP:
-      return;
+      console.log("signing up");
+      return state;
+
+    case LOGIN:
+      console.log("logging in");
+      return state;
 
     default:
       return state;

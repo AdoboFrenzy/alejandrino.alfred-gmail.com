@@ -11,6 +11,10 @@ import {
   Platform,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+
+import { signup, login } from "../../store/actions/auth";
+
 import { LinearGradient } from "expo-linear-gradient";
 
 import Card from "../../components/UI/Card";
@@ -26,6 +30,8 @@ const AuthScreen = (props) => {
   // useEffect(() => {
   //   props.navigation.setParams({ isSignUp });
   // }, [isSignUp]);
+
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.scrollview}>
@@ -62,7 +68,13 @@ const AuthScreen = (props) => {
             />
             <Button
               title={isSignUp ? "Sign Up" : "Login"}
-              onPress={() => {}}
+              onPress={() => {
+                if (isSignUp) {
+                  dispatch(signup(userName, password));
+                } else {
+                  dispatch(login(userName, password));
+                }
+              }}
               color={Color.primary}
             />
             <Button
