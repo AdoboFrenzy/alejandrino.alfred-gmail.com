@@ -11,6 +11,9 @@ import {
   Platform,
 } from "react-native";
 
+import { LinearGradient } from "expo-linear-gradient";
+
+import Card from "../../components/UI/Card";
 import Input from "../../components/UI/Input";
 
 import Color from "../../constants/Colors";
@@ -20,56 +23,64 @@ const AuthScreen = (props) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    props.navigation.setParams({ isSignUp });
-  }, [isSignUp]);
+  // useEffect(() => {
+  //   props.navigation.setParams({ isSignUp });
+  // }, [isSignUp]);
 
   return (
-    <ScrollView>
-      <View style={styles.loginHeader}>
-        <Text style={styles.headerText}>
-          Please {isSignUp ? "Sign Up" : "Login"} to proceed!
-        </Text>
+    <View style={styles.scrollview}>
+      <View style={styles.screen}>
+        <LinearGradient colors={["white", "lightgrey"]} style={styles.gradient}>
+          <Card style={styles.container}>
+            <View style={styles.loginHeader}>
+              <Text style={styles.headerText}>
+                Please {isSignUp ? "Sign Up" : "Login"} to proceed!
+              </Text>
+            </View>
+            <Input
+              label="User Name"
+              placeholder="User Name"
+              onChangeText={(text) => {
+                setUserName(text);
+              }}
+              defaultValue={userName}
+              autoCapitalize="sentences"
+              autoCorrect
+              returnKeyType="next"
+            />
+            <Input
+              label="Password"
+              placeholder="Password"
+              secureTextEntry={true}
+              onChangeText={(text) => {
+                setPassword(text);
+              }}
+              defaultValue={password}
+              autoCapitalize="sentences"
+              autoCorrect
+              returnKeyType="next"
+            />
+            <Button
+              title={isSignUp ? "Sign Up" : "Login"}
+              onPress={() => {}}
+              color={Color.primary}
+            />
+            <Button
+              title={`Switch to ${isSignUp ? "Sign In" : "Sign Up"}`}
+              onPress={() => {
+                setIsSignUp((prevState) => !prevState);
+              }}
+              color={Color.accent}
+            />
+          </Card>
+        </LinearGradient>
       </View>
-      <View style={styles.container}>
-        <Input
-          label="User Name"
-          placeholder="User Name"
-          onChangeText={(text) => {
-            setUserName(text);
-          }}
-          defaultValue={userName}
-          autoCapitalize="sentences"
-          autoCorrect
-          returnKeyType="next"
-        />
-        <Input
-          label="Password"
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            setPassword(text);
-          }}
-          defaultValue={password}
-          autoCapitalize="sentences"
-          autoCorrect
-          returnKeyType="next"
-        />
-        <Button title="Submit" onPress={() => {}} color={Color.primary} />
-        <Button
-          title={`Switch to ${isSignUp ? "Sign In" : "Sign Up"}`}
-          onPress={() => {
-            setIsSignUp((prevState) => !prevState);
-          }}
-          color={Color.primary}
-        />
-      </View>
-    </ScrollView>
+    </View>
   );
 };
 
 AuthScreen.navigationOptions = (navOptions) => {
-  const isSignUp = navOptions.navigation.getParam("isSignUp");
+  // const isSignUp = navOptions.navigation.getParam("isSignUp");
 
   return {
     headerTitle: "Authentication",
@@ -77,6 +88,7 @@ AuthScreen.navigationOptions = (navOptions) => {
 };
 
 const styles = StyleSheet.create({
+  scrollview: { flex: 1, height: "100%" },
   screen: {
     flex: 1,
     alignItems: "center",
@@ -85,19 +97,28 @@ const styles = StyleSheet.create({
   loginHeader: {
     alignItems: "center",
     // padding: 10,
-    marginVertical: 10,
+    marginTop: 10,
+    marginBottom: 20,
   },
   headerText: {
     fontFamily: "open-sans",
     color: Color.primary,
-    fontSize: 20,
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 3,
-    textShadowColor: "grey",
+    fontSize: 18,
+    // textShadowOffset: { width: 2, height: 2 },
+    // textShadowRadius: 3,
+    // textShadowColor: "grey",
+  },
+  gradient: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: "100%",
   },
   container: {
-    width: "100%",
+    width: "85%",
     padding: 20,
+    backgroundColor: "white",
   },
 });
 
