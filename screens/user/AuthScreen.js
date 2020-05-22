@@ -78,7 +78,7 @@ const AuthScreen = (props) => {
               color={Color.primary}
             />
             <Button
-              title={`Switch to ${isSignUp ? "Sign In" : "Sign Up"}`}
+              title={`Switch to ${isSignUp ? "Login" : "Sign Up"}`}
               onPress={() => {
                 setIsSignUp((prevState) => !prevState);
               }}
