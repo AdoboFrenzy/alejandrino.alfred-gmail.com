@@ -25,7 +25,6 @@ export const signup = (email, password) => async (dispatch) => {
 
   return dispatch({
     type: SIGNUP,
-    email: resData.email,
     userId: resData.localId,
     token: resData.idToken,
     expiresIn: resData.expiresIn,
@@ -72,7 +71,6 @@ export const login = (email, password) => async (dispatch) => {
 
   return dispatch({
     type: LOGIN,
-    email: resData.email,
     userId: resData.localId,
     token: resData.idToken,
     expiresIn: resData.expiresIn,

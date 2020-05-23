@@ -6,7 +6,7 @@ export const DELETE_PRODUCT = "DELETE_PRODUCT";
 
 export const SET_PRODUCTS = "SET_PRODUCTS";
 
-export const fetchProducts = () => async (dispatch) => {
+export const fetchProducts = () => async (dispatch, getState) => {
   try {
     const response = await fetch(
       "https://shopappacademind.firebaseio.com/products.json"
@@ -60,16 +60,17 @@ export const addProduct = (newProductInfo) => async (dispatch) => {
   });
 };
 
-export const editProduct = (editProductInfo) => async (dispatch) => {
+export const editProduct = (editProductInfo) => async (dispatch, getState) => {
   // Any async code here!
 
   const { existingId, title, imageURL, description } = editProductInfo;
+  const { token, userId } = getState().auth;
 
   try {
     const response = await fetch(
       "https://shopappacademind.firebaseio.com/products/" +
         existingId +
-        ".json",
+        `.json?auth=${token}`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -94,10 +95,15 @@ export const editProduct = (editProductInfo) => async (dispatch) => {
   }
 };
 
-export const deleteProduct = (productId) => async (dispatch) => {
+export const deleteProduct = (productId) => async (dispatch, test) => {
+  const { token } = test().auth;
+
   try {
     const response = await fetch(
-      "https://shopappacademind.firebaseio.com/products/" + productId + ".json",
+      "https://shopappacademind.firebaseio.com/products/" +
+        productId +
+        ".json" +
+        `?auth=${token}`,
       { method: "DELETE" }
     );
 
