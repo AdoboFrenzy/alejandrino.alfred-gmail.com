@@ -1,21 +1,17 @@
 import { SIGNUP, LOGIN } from "../actions/auth";
 
 const initialState = {
-  email: "",
-  password: "",
+  token: null,
+  userId: null,
 };
 
 const authReducer = (state = initialState, action) => {
-  console.log(action.type);
-
   switch (action.type) {
     case SIGNUP:
-      console.log("signing up");
-      return state;
+      return { token: action.token, userId: action.userId };
 
     case LOGIN:
-      console.log("logging in");
-      return state;
+      return { token: action.token, userId: action.userId };
 
     default:
       return state;

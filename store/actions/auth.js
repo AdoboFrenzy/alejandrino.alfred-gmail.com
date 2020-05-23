@@ -23,8 +23,6 @@ export const signup = (email, password) => async (dispatch) => {
 
   const resData = await response.json();
 
-  console.log(resData);
-
   return dispatch({
     type: SIGNUP,
     email: resData.email,
@@ -51,14 +49,32 @@ export const login = (email, password) => async (dispatch) => {
   );
 
   if (!response.ok) {
-    throw new Error("Something went wrong!");
+    let message = "Something went wrong!";
+
+    const errorResData = await response.json();
+    // const errorId = errorResData.error.message;
+
+    const errorCode = errorResData.error.code;
+
+    // console.log(errorResData);
+
+    // if (errorId === "EMAIL_NOT_FOUND" || errorId === "INVALID_EMAIL") {
+    //   message = "This is an invalid e-mail!";
+    // } else if (errorId === "INVALID_PASSWORD") {
+    //   message = "This is an invalid password!";
+    // }
+    if (errorCode === 400) message = "Invalid Credentials!";
+
+    throw new Error(message);
   }
 
   const resData = await response.json();
 
-  console.log(resData);
-
   return dispatch({
     type: LOGIN,
+    email: resData.email,
+    userId: resData.localId,
+    token: resData.idToken,
+    expiresIn: resData.expiresIn,
   });
 };
