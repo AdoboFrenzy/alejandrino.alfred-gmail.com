@@ -22,7 +22,7 @@ const productsReducer = (state = initialState, action) => {
       return {
         availableProducts: action.products,
         userProducts: action.products.filter(
-          (product) => product.ownerId == "u1"
+          (product) => product.ownerId == action.userId
         ),
       };
 
@@ -34,7 +34,7 @@ const productsReducer = (state = initialState, action) => {
 
       const result = new Product(
         action.newProductInfo.id,
-        "u1",
+        action.newProductInfo.ownerId,
         ...Object.values(action.newProductInfo)
       );
 
