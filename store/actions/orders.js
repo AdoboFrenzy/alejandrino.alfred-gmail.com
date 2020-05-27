@@ -3,9 +3,11 @@ export const SET_ORDERS = "SET_ORDERS";
 
 import Order from "../../models/order";
 
-export const fetchOrders = () => async (dispatch) => {
+export const fetchOrders = () => async (dispatch, getState) => {
+  const { userId } = getState().auth;
+
   const response = await fetch(
-    "https://shopappacademind.firebaseio.com/orders/u1.json"
+    `https://shopappacademind.firebaseio.com/orders/${userId}.json`
   );
 
   const resData = await response.json();
@@ -26,11 +28,15 @@ export const fetchOrders = () => async (dispatch) => {
   });
 };
 
-export const addToOrder = (cartItems, totalAmount) => async (dispatch) => {
+export const addToOrder = (cartItems, totalAmount) => async (
+  dispatch,
+  getState
+) => {
   const date = new Date();
+  const { userId, token } = getState().auth;
 
   const response = await fetch(
-    "https://shopappacademind.firebaseio.com/orders/u1.json",
+    `https://shopappacademind.firebaseio.com/orders/${userId}.json?auth=${token}`,
     {
       method: "POST",
       headers: {
