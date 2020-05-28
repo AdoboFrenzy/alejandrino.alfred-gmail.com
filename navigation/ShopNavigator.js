@@ -14,7 +14,7 @@ import CartScreen from "../screens/shop/CartScreen";
 import OrdersScreen from "../screens/shop/OrdersScreen";
 
 import AuthScreen from "../screens/user/AuthScreen";
-import StartupScreen from "../screens/user/StartupScreen";
+import StartupScreen from "../screens/StartupScreen";
 
 import UserProductsScreen from "../screens/user/UserProductsScreen";
 import EditProductScreen from "../screens/user/EditProductScreen";

@@ -1,7 +1,44 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  AsyncStorage,
+} from "react-native";
+
+import { useDispatch } from "react-redux";
+
+import { authenticate } from "../store/actions/auth";
 
 const StartupScreen = (props) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const tryLogin = async () => {
+      const userData = await AsyncStorage.getItem("userData");
+      if (!userData) {
+        props.navigation.navigate("Auth");
+        return;
+      }
+
+      const transformedData = JSON.parse(userData);
+      const { userId, token, expDate } = transformedData;
+
+      const expirationDate = new Date(expDate);
+
+      if (expirationDate <= new Date() || !token || !userId) {
+        props.navigation.navigate("Auth");
+        return;
+      }
+
+      dispatch(authenticate(userId, token));
+      props.navigation.navigate("Shop");
+    };
+
+    tryLogin();
+  }, [dispatch]);
+
   return (
     <View style={styles.screen}>
       <Text>Startup Screen</Text>
