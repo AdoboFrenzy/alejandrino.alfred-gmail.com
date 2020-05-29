@@ -102,7 +102,7 @@ const ShopDrawerNavigator = createDrawerNavigator(
       const dispatch = useDispatch();
 
       return (
-        <View style={{ flex: 1, padding: 20 }}>
+        <View style={{ flex: 1, paddingTop: 20 }}>
           <SafeAreaView forceInset={{ top: "always", horizontal: "never" }}>
             <DrawerNavigatorItems {...props} />
             <Button
